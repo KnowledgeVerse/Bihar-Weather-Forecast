@@ -1439,7 +1439,17 @@ function downloadMapImage() {
   const node = document.getElementById("map");
   node.classList.add("static-icons"); // Freeze animations
 
-  const hideIcons = document.getElementById("chkDlHideIcons")?.checked;
+  let hideIcons = false;
+  if (currentReviewMode === "forecast") {
+    hideIcons = !(
+      document.getElementById("chkDlForecastIcons")?.checked ?? true
+    );
+  } else if (currentReviewMode === "warning") {
+    hideIcons = !(
+      document.getElementById("chkDlWarningIcons")?.checked ?? true
+    );
+  }
+
   const originalHideState = document.body.classList.contains("hide-icons");
   if (hideIcons) document.body.classList.add("hide-icons");
 
@@ -2107,9 +2117,11 @@ async function download7DaysPDF() {
 
 async function downloadSmartPDF() {
   const chkForecast = document.getElementById("chkDlForecast").checked;
+  const showForecastIcons =
+    document.getElementById("chkDlForecastIcons")?.checked ?? true;
   const chkWarning = document.getElementById("chkDlWarning").checked;
-  const hideIcons = document.getElementById("chkDlHideIcons")?.checked;
-  const saveBoth = document.getElementById("chkDlSaveBoth")?.checked;
+  const showWarningIcons =
+    document.getElementById("chkDlWarningIcons")?.checked ?? true;
 
   if (!chkForecast && !chkWarning) {
     alert("Please select at least one type (Forecast or Warning) to download.");
@@ -2129,82 +2141,66 @@ async function downloadSmartPDF() {
   }
 
   try {
-    const statesToProcess = saveBoth ? [false, true] : [!!hideIcons];
+    let doc = null;
 
-    for (const isHidden of statesToProcess) {
-      let doc = null;
-      if (isHidden) document.body.classList.add("hide-icons");
+    const processType = async (type, dataArray, showIcons) => {
+      currentReviewMode = type;
+      weeklyData = dataArray;
+
+      if (!showIcons) document.body.classList.add("hide-icons");
       else document.body.classList.remove("hide-icons");
 
-      const processType = async (type, dataArray) => {
-        // Set context for rendering
-        currentReviewMode = type;
-        weeklyData = dataArray;
+      const groups = getDayGroups(dataArray);
 
-        const groups = getDayGroups(dataArray);
+      for (const group of groups) {
+        currentDay = group.start;
+        districtPhenomenaMap = weeklyData[currentDay - 1];
 
-        for (const group of groups) {
-          // Set day to start of group (header logic will handle the range text)
-          currentDay = group.start;
-          districtPhenomenaMap = weeklyData[currentDay - 1];
+        updateMapDateHeader();
+        updateMapHeaderText();
+        updateMapStyle();
+        updateLegend();
 
-          // Update Map UI
-          updateMapDateHeader();
-          updateMapHeaderText();
-          updateMapStyle();
-          updateLegend();
+        await new Promise((r) => setTimeout(r, 800));
 
-          // Wait for render
-          await new Promise((r) => setTimeout(r, 800));
+        const node = document.getElementById("map");
+        node.classList.add("static-icons");
 
-          const node = document.getElementById("map");
-          node.classList.add("static-icons"); // Freeze animations
+        const width = node.offsetWidth;
+        const height = node.offsetHeight;
 
-          const width = node.offsetWidth;
-          const height = node.offsetHeight;
+        const dataUrl = await domtoimage.toPng(node, {
+          width: node.offsetWidth,
+          height: node.offsetHeight,
+          bgcolor: "#ffffff",
+        });
 
-          const dataUrl = await domtoimage.toPng(node, {
-            width: node.offsetWidth,
-            height: node.offsetHeight,
-            bgcolor: "#ffffff",
+        if (!doc) {
+          doc = new jsPDF({
+            orientation: width > height ? "l" : "p",
+            unit: "px",
+            format: [width, height],
           });
-
-          if (!doc) {
-            // Initialize PDF with the dimensions of the first image (in pixels)
-            doc = new jsPDF({
-              orientation: width > height ? "l" : "p",
-              unit: "px",
-              format: [width, height],
-            });
-          } else {
-            // Add new page with dimensions of the current image
-            doc.addPage([width, height], width > height ? "l" : "p");
-          }
-
-          doc.addImage(dataUrl, "PNG", 0, 0, width, height);
-          node.classList.remove("static-icons"); // Unfreeze
+        } else {
+          doc.addPage([width, height], width > height ? "l" : "p");
         }
-      };
 
-      if (chkForecast) {
-        await processType("forecast", weeklyForecastData);
+        doc.addImage(dataUrl, "PNG", 0, 0, width, height);
+        node.classList.remove("static-icons");
       }
-      if (chkWarning) {
-        await processType("warning", weeklyWarningData);
-      }
+    };
 
-      if (doc) {
-        const suffix = saveBoth
-          ? isHidden
-            ? "_Without_Icons"
-            : "_With_Icons"
-          : "";
-        doc.save(
-          `Bihar_Weather_Smart_Report_${
-            new Date().toISOString().split("T")[0]
-          }${suffix}.pdf`,
-        );
-      }
+    if (chkForecast) {
+      await processType("forecast", weeklyForecastData, showForecastIcons);
+    }
+    if (chkWarning) {
+      await processType("warning", weeklyWarningData, showWarningIcons);
+    }
+
+    if (doc) {
+      doc.save(
+        `Bihar_Weather_Smart_Report_${new Date().toISOString().split("T")[0]}.pdf`,
+      );
     }
   } catch (e) {
     console.error("PDF Generation Error:", e);
@@ -2238,9 +2234,11 @@ async function downloadSmartPDF() {
 
 async function downloadSmartImages() {
   const chkForecast = document.getElementById("chkDlForecast").checked;
+  const showForecastIcons =
+    document.getElementById("chkDlForecastIcons")?.checked ?? true;
   const chkWarning = document.getElementById("chkDlWarning").checked;
-  const hideIcons = document.getElementById("chkDlHideIcons")?.checked;
-  const saveBoth = document.getElementById("chkDlSaveBoth")?.checked;
+  const showWarningIcons =
+    document.getElementById("chkDlWarningIcons")?.checked ?? true;
 
   if (!chkForecast && !chkWarning) {
     alert("Please select at least one type (Forecast or Warning) to download.");
@@ -2261,59 +2259,51 @@ async function downloadSmartImages() {
   }
 
   try {
-    const statesToProcess = saveBoth ? [false, true] : [!!hideIcons];
-
-    for (const isHidden of statesToProcess) {
-      if (isHidden) document.body.classList.add("hide-icons");
+    const processType = async (type, dataArray, showIcons) => {
+      if (!showIcons) document.body.classList.add("hide-icons");
       else document.body.classList.remove("hide-icons");
 
-      const iconStateStr = saveBoth
-        ? isHidden
-          ? "Without-Icons"
-          : "With-Icons"
-        : "";
+      currentReviewMode = type;
+      weeklyData = dataArray;
+      const groups = getDayGroups(dataArray);
 
-      const processType = async (type, dataArray) => {
-        currentReviewMode = type;
-        weeklyData = dataArray;
-        const groups = getDayGroups(dataArray);
+      for (const group of groups) {
+        currentDay = group.start;
+        districtPhenomenaMap = weeklyData[currentDay - 1];
 
-        for (const group of groups) {
-          currentDay = group.start;
-          districtPhenomenaMap = weeklyData[currentDay - 1];
+        updateMapDateHeader();
+        updateMapHeaderText();
+        updateMapStyle();
+        updateLegend();
 
-          updateMapDateHeader();
-          updateMapHeaderText();
-          updateMapStyle();
-          updateLegend();
+        await new Promise((r) => setTimeout(r, 800));
 
-          await new Promise((r) => setTimeout(r, 800));
+        const node = document.getElementById("map");
+        node.classList.add("static-icons");
+        const dataUrl = await domtoimage.toPng(node, {
+          width: node.offsetWidth,
+          height: node.offsetHeight,
+          bgcolor: "#ffffff",
+        });
+        node.classList.remove("static-icons");
 
-          const node = document.getElementById("map");
-          node.classList.add("static-icons"); // Freeze animations
-          const dataUrl = await domtoimage.toPng(node, {
-            width: node.offsetWidth,
-            height: node.offsetHeight,
-            bgcolor: "#ffffff",
-          });
-          node.classList.remove("static-icons"); // Unfreeze
+        const link = document.createElement("a");
+        const rangeStr =
+          group.start === group.end
+            ? `Day-${group.start}`
+            : `Day-${group.start}-to-${group.end}`;
+        const suffix = showIcons ? "" : "-Without-Icons";
+        link.download = `${today}-${type}-${rangeStr}${suffix}.png`;
+        link.href = dataUrl;
+        link.click();
+        await new Promise((r) => setTimeout(r, 500));
+      }
+    };
 
-          const link = document.createElement("a");
-          const rangeStr =
-            group.start === group.end
-              ? `Day-${group.start}`
-              : `Day-${group.start}-to-${group.end}`;
-          const suffix = iconStateStr ? `-${iconStateStr}` : "";
-          link.download = `${today}-${type}-${rangeStr}${suffix}.png`;
-          link.href = dataUrl;
-          link.click();
-          await new Promise((r) => setTimeout(r, 500));
-        }
-      };
-
-      if (chkForecast) await processType("forecast", weeklyForecastData);
-      if (chkWarning) await processType("warning", weeklyWarningData);
-    }
+    if (chkForecast)
+      await processType("forecast", weeklyForecastData, showForecastIcons);
+    if (chkWarning)
+      await processType("warning", weeklyWarningData, showWarningIcons);
   } catch (e) {
     console.error("Image Download Error:", e);
   } finally {

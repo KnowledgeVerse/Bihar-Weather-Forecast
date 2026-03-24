@@ -496,6 +496,7 @@
               style="
                 display: flex;
                 align-items: center;
+                flex-wrap: wrap;
                 gap: 10px;
                 border: 1px solid #ccc;
                 padding: 5px 10px;
@@ -508,45 +509,107 @@
                 style="
                   display: flex;
                   flex-direction: column;
-                  gap: 2px;
-                  font-size: 11px;
+                  gap: 8px;
+                  font-size: 12px;
                   font-weight: bold;
+                  min-width: 120px;
                 "
               >
-                <label
+                <div
                   style="
-                    margin-bottom: 0;
-                    cursor: pointer;
                     display: flex;
                     align-items: center;
-                    gap: 4px;
+                    justify-content: space-between;
                   "
                 >
-                  <input type="checkbox" id="chkDlForecast" checked /> Forecast
-                </label>
-                <label
+                  <label
+                    style="
+                      margin-bottom: 0;
+                      cursor: pointer;
+                      display: flex;
+                      align-items: center;
+                      gap: 4px;
+                    "
+                  >
+                    <input type="checkbox" id="chkDlForecast" checked />
+                    Forecast
+                  </label>
+                  <label
+                    style="
+                      margin-bottom: 0;
+                      cursor: pointer;
+                      display: flex;
+                      align-items: center;
+                    "
+                    title="Toggle Icons for Forecast"
+                  >
+                    <input
+                      type="checkbox"
+                      id="chkDlForecastIcons"
+                      checked
+                      onchange="
+                        this.nextElementSibling.className = this.checked
+                          ? 'fas fa-eye'
+                          : 'fas fa-eye-slash';
+                        this.nextElementSibling.style.color = this.checked
+                          ? '#667eea'
+                          : '#666';
+                      "
+                      style="display: none"
+                    />
+                    <i
+                      class="fas fa-eye"
+                      style="color: #667eea; font-size: 14px"
+                    ></i>
+                  </label>
+                </div>
+                <div
                   style="
-                    margin-bottom: 0;
-                    cursor: pointer;
                     display: flex;
                     align-items: center;
-                    gap: 4px;
+                    justify-content: space-between;
                   "
                 >
-                  <input type="checkbox" id="chkDlWarning" checked /> Warning
-                </label>
-                <label
-                  style="
-                    margin-bottom: 0;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    gap: 4px;
-                  "
-                  title="Hide icons in downloaded images/PDF"
-                >
-                  <input type="checkbox" id="chkDlHideIcons" /> Hide Icons
-                </label>
+                  <label
+                    style="
+                      margin-bottom: 0;
+                      cursor: pointer;
+                      display: flex;
+                      align-items: center;
+                      gap: 4px;
+                    "
+                  >
+                    <input type="checkbox" id="chkDlWarning" checked /> Warning
+                  </label>
+                  <label
+                    style="
+                      margin-bottom: 0;
+                      cursor: pointer;
+                      display: flex;
+                      align-items: center;
+                    "
+                    title="Toggle Icons for Warning"
+                  >
+                    <input
+                      type="checkbox"
+                      id="chkDlWarningIcons"
+                      checked
+                      onchange="
+                        this.nextElementSibling.className = this.checked
+                          ? 'fas fa-eye'
+                          : 'fas fa-eye-slash';
+                        this.nextElementSibling.style.color = this.checked
+                          ? '#667eea'
+                          : '#666';
+                      "
+                      style="display: none"
+                    />
+                    <i
+                      class="fas fa-eye"
+                      style="color: #667eea; font-size: 14px"
+                    ></i>
+                  </label>
+                </div>
               </div>
               <div style="height: 30px; width: 1px; background: #ccc"></div>
               <div style="display: flex; gap: 5px">
