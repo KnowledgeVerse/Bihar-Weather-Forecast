@@ -1,0 +1,223 @@
+<nav class="main-menu" id="sidebarMenu">
+  <div class="sidebar-header">
+    <div class="toggle-btn-sidebar" id="sidebarToggle" title="Toggle Menu">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+  <ul class="menu-root">
+    <li class="menu-item">
+      <a
+        href="#"
+        onclick="
+          if (typeof toggleLanguage === 'function') toggleLanguage();
+          return false;
+        "
+      >
+        <i class="fas fa-language menu-icon"></i>
+        <span class="menu-text">Language</span>
+      </a>
+    </li>
+    <li class="menu-item">
+      <a
+        href="#"
+        onclick="
+          const bgInput =
+            document.getElementById('bgColorInput') ||
+            document.getElementById('mapBgInput');
+          if (bgInput) bgInput.click();
+          return false;
+        "
+      >
+        <i class="fas fa-palette menu-icon"></i>
+        <span class="menu-text">Background</span>
+      </a>
+    </li>
+    <li class="menu-item">
+      <a
+        href="#"
+        onclick="
+          if (typeof toggleDarkMode === 'function') toggleDarkMode();
+          return false;
+        "
+      >
+        <i class="fas fa-moon menu-icon"></i>
+        <span class="menu-text">Dark Mode</span>
+      </a>
+    </li>
+    <li class="menu-item">
+      <a
+        href="#"
+        onclick="
+          if (
+            typeof openLoginModal === 'function' &&
+            document.getElementById('loginModal')
+          ) {
+            openLoginModal();
+          } else {
+            window.location.href = 'index.html';
+          }
+          return false;
+        "
+      >
+        <i class="fas fa-sign-in-alt menu-icon"></i>
+        <span class="menu-text">Login</span>
+      </a>
+    </li>
+    <li class="menu-item">
+      <a href="https://biharmausam.com/">
+        <i class="fas fa-house-chimney menu-icon"></i>
+        <span class="menu-text">Main Home</span>
+      </a>
+    </li>
+    <li class="menu-item">
+      <a href="index.html">
+        <i class="fas fa-home menu-icon"></i>
+        <span class="menu-text">Home</span>
+      </a>
+    </li>
+    <li class="menu-item dropdown">
+      <div class="dropdown-title">
+        <i class="fas fa-newspaper menu-icon"></i>
+        <span class="menu-text">Weather Bulletin</span>
+        <i
+          class="fas fa-chevron-down submenu-indicator"
+          style="margin-left: auto"
+        ></i>
+      </div>
+      <ul class="submenu">
+        <li>
+          <a href="bulletin.html"
+            ><i class="fas fa-file-alt menu-icon"></i
+            ><span class="menu-text">Weather Bulletin</span></a
+          >
+        </li>
+        <li>
+          <a href="Generate_Weather_Bulletin.html"
+            ><i class="fas fa-file-lines menu-icon"></i
+            ><span class="menu-text">Generate Bulletin</span></a
+          >
+        </li>
+        <li>
+          <a href="max_min_rh.html"
+            ><i class="fas fa-table menu-icon"></i
+            ><span class="menu-text">Observed Data</span></a
+          >
+        </li>
+        <li>
+          <a href="Weather_summary.html"
+            ><i class="fas fa-cloud-sun menu-icon"></i
+            ><span class="menu-text">Weather Summary</span></a
+          >
+        </li>
+        <li>
+          <a href="Detailed_Weather_Forecast.html"
+            ><i class="fas fa-list-alt menu-icon"></i
+            ><span class="menu-text">Detailed Forecast</span></a
+          >
+        </li>
+        <li>
+          <a href="Weather_Warning_Table.html"
+            ><i class="fas fa-exclamation-triangle menu-icon"></i
+            ><span class="menu-text">Warning Table</span></a
+          >
+        </li>
+        <li>
+          <a href="bulk_import.html"
+            ><i class="fas fa-file-import menu-icon"></i
+            ><span class="menu-text">Temperature Import</span></a
+          >
+        </li>
+        <li>
+          <a href="Temperature_Forecast.html"
+            ><i class="fas fa-temperature-high menu-icon"></i
+            ><span class="menu-text">Min/Max Temperature</span></a
+          >
+        </li>
+        <li>
+          <a href="forecast.html"
+            ><i class="fas fa-calendar-day menu-icon"></i
+            ><span class="menu-text">7-Day Forecast</span></a
+          >
+        </li>
+        <li>
+          <a href="warning.html"
+            ><i class="fas fa-bell menu-icon"></i
+            ><span class="menu-text">7-Day Warning</span></a
+          >
+        </li>
+        <li>
+          <a href="bulletin_footer.html"
+            ><i class="fas fa-file-signature menu-icon"></i
+            ><span class="menu-text">Bulletin Footer</span></a
+          >
+        </li>
+        <li>
+          <a href="synop.html"
+            ><i class="fas fa-code menu-icon"></i
+            ><span class="menu-text">SYNOP Decoder</span></a
+          >
+        </li>
+        <li>
+          <a href="test_temp_data.html"
+            ><i class="fas fa-vial menu-icon"></i
+            ><span class="menu-text">Test Temp Data</span></a
+          >
+        </li>
+        <li>
+          <a href="editor.html"
+            ><i class="fas fa-edit menu-icon"></i
+            ><span class="menu-text">Editor</span></a
+          >
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item dropdown">
+      <div class="dropdown-title">
+        <i class="fas fa-toolbox menu-icon"></i>
+        <span class="menu-text">Additional Tools</span>
+        <i
+          class="fas fa-chevron-down submenu-indicator"
+          style="margin-left: auto"
+        ></i>
+      </div>
+      <ul class="submenu">
+        <li>
+          <a href="live.html"
+            ><i class="fas fa-tower-broadcast menu-icon"></i
+            ><span class="menu-text">Live Preview</span></a
+          >
+        </li>
+        <li>
+          <a href="temp.html"
+            ><i class="fas fa-thermometer-half menu-icon"></i
+            ><span class="menu-text">Live Temperature</span></a
+          >
+        </li>
+        <li>
+          <a href="rain.html"
+            ><i class="fas fa-cloud-showers-heavy menu-icon"></i
+            ><span class="menu-text">Rainfall Map</span></a
+          >
+        </li>
+        <li>
+          <a href="wind.html"
+            ><i class="fas fa-wind menu-icon"></i
+            ><span class="menu-text">Wind Speed</span></a
+          >
+        </li>
+        <li>
+          <a href="humidity.html"
+            ><i class="fas fa-tint menu-icon"></i
+            ><span class="menu-text">Humidity</span></a
+          >
+        </li>
+        <li>
+          <a href="display.html"
+            ><i class="fas fa-tv menu-icon"></i
+            ><span class="menu-text">Display Mode</span></a
+          >
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
