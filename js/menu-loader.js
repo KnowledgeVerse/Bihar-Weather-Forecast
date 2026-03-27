@@ -10,6 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((data) => {
       document.getElementById("menu-container").innerHTML = data;
 
+      // Dynamically load menu.js AFTER the menu HTML is in the DOM
+      const script = document.createElement("script");
+      script.src = "js/menu.js";
+      script.onload = () => {
+        if (typeof initMenuDropdowns === "function") initMenuDropdowns();
+      };
+      document.body.appendChild(script);
+
       // Collapse Menu Toggle Logic
       const toggleBtn = document.getElementById("sidebarToggle");
       if (toggleBtn) {

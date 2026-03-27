@@ -6,64 +6,6 @@
   </div>
   <ul class="menu-root">
     <li class="menu-item">
-      <a
-        href="#"
-        onclick="
-          if (typeof toggleLanguage === 'function') toggleLanguage();
-          return false;
-        "
-      >
-        <i class="fas fa-language menu-icon"></i>
-        <span class="menu-text">Language</span>
-      </a>
-    </li>
-    <li class="menu-item">
-      <a
-        href="#"
-        onclick="
-          const bgInput =
-            document.getElementById('bgColorInput') ||
-            document.getElementById('mapBgInput');
-          if (bgInput) bgInput.click();
-          return false;
-        "
-      >
-        <i class="fas fa-palette menu-icon"></i>
-        <span class="menu-text">Background</span>
-      </a>
-    </li>
-    <li class="menu-item">
-      <a
-        href="#"
-        onclick="
-          if (typeof toggleDarkMode === 'function') toggleDarkMode();
-          return false;
-        "
-      >
-        <i class="fas fa-moon menu-icon"></i>
-        <span class="menu-text">Dark Mode</span>
-      </a>
-    </li>
-    <li class="menu-item">
-      <a
-        href="#"
-        onclick="
-          if (
-            typeof openLoginModal === 'function' &&
-            document.getElementById('loginModal')
-          ) {
-            openLoginModal();
-          } else {
-            window.location.href = 'index.html';
-          }
-          return false;
-        "
-      >
-        <i class="fas fa-sign-in-alt menu-icon"></i>
-        <span class="menu-text">Login</span>
-      </a>
-    </li>
-    <li class="menu-item">
       <a href="https://biharmausam.com/">
         <i class="fas fa-house-chimney menu-icon"></i>
         <span class="menu-text">Main Home</span>
@@ -88,15 +30,10 @@
         <li>
           <a href="bulletin.html"
             ><i class="fas fa-file-alt menu-icon"></i
-            ><span class="menu-text">Weather Bulletin</span></a
+            ><span class="menu-text">All Bulletin Options</span></a
           >
         </li>
-        <li>
-          <a href="Generate_Weather_Bulletin.html"
-            ><i class="fas fa-file-lines menu-icon"></i
-            ><span class="menu-text">Generate Bulletin</span></a
-          >
-        </li>
+
         <li>
           <a href="max_min_rh.html"
             ><i class="fas fa-table menu-icon"></i
@@ -106,13 +43,13 @@
         <li>
           <a href="Weather_summary.html"
             ><i class="fas fa-cloud-sun menu-icon"></i
-            ><span class="menu-text">Weather Summary</span></a
+            ><span class="menu-text">Text Weather Summary</span></a
           >
         </li>
         <li>
           <a href="Detailed_Weather_Forecast.html"
             ><i class="fas fa-list-alt menu-icon"></i
-            ><span class="menu-text">Detailed Forecast</span></a
+            ><span class="menu-text">Forecast Table</span></a
           >
         </li>
         <li>
@@ -130,7 +67,7 @@
         <li>
           <a href="Temperature_Forecast.html"
             ><i class="fas fa-temperature-high menu-icon"></i
-            ><span class="menu-text">Min/Max Temperature</span></a
+            ><span class="menu-text">7 Days Min/Max Temp</span></a
           >
         </li>
         <li>
@@ -152,21 +89,9 @@
           >
         </li>
         <li>
-          <a href="synop.html"
-            ><i class="fas fa-code menu-icon"></i
-            ><span class="menu-text">SYNOP Decoder</span></a
-          >
-        </li>
-        <li>
-          <a href="test_temp_data.html"
-            ><i class="fas fa-vial menu-icon"></i
-            ><span class="menu-text">Test Temp Data</span></a
-          >
-        </li>
-        <li>
-          <a href="editor.html"
-            ><i class="fas fa-edit menu-icon"></i
-            ><span class="menu-text">Editor</span></a
+          <a href="Generate_Weather_Bulletin.html"
+            ><i class="fas fa-file-lines menu-icon"></i
+            ><span class="menu-text">Generate Bulletin</span></a
           >
         </li>
       </ul>
@@ -187,6 +112,13 @@
             ><span class="menu-text">Live Preview</span></a
           >
         </li>
+        <li>
+          <a href="display.html"
+            ><i class="fas fa-tv menu-icon"></i
+            ><span class="menu-text">offline Display</span></a
+          >
+        </li>
+
         <li>
           <a href="temp.html"
             ><i class="fas fa-thermometer-half menu-icon"></i
@@ -211,13 +143,84 @@
             ><span class="menu-text">Humidity</span></a
           >
         </li>
-        <li>
-          <a href="display.html"
-            ><i class="fas fa-tv menu-icon"></i
-            ><span class="menu-text">Display Mode</span></a
-          >
-        </li>
       </ul>
     </li>
   </ul>
+
+  <!-- Icons moved out of the list to act as an independent bottom toolbar -->
+  <div
+    class="menu-actions"
+    aria-label="Quick actions"
+    style="
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      padding: 15px 0;
+      border-top: 1px solid rgba(150, 150, 150, 0.2);
+      margin-top: auto;
+    "
+  >
+    <a
+      class="menu-action-btn"
+      href="#"
+      title="Language"
+      aria-label="Language"
+      onclick="
+        if (typeof toggleLanguage === 'function') toggleLanguage();
+        return false;
+      "
+      style="color: inherit; text-decoration: none; font-size: 1.2rem"
+    >
+      <i class="fas fa-language"></i>
+    </a>
+    <a
+      class="menu-action-btn"
+      href="#"
+      title="Background"
+      aria-label="Background"
+      onclick="
+        const bgInput =
+          document.getElementById('bgColorInput') ||
+          document.getElementById('mapBgInput');
+        if (bgInput) bgInput.click();
+        return false;
+      "
+      style="color: inherit; text-decoration: none; font-size: 1.2rem"
+    >
+      <i class="fas fa-palette"></i>
+    </a>
+    <a
+      class="menu-action-btn"
+      href="#"
+      title="Dark Mode"
+      aria-label="Dark Mode"
+      onclick="
+        if (typeof toggleDarkMode === 'function') toggleDarkMode();
+        return false;
+      "
+      style="color: inherit; text-decoration: none; font-size: 1.2rem"
+    >
+      <i class="fas fa-moon"></i>
+    </a>
+    <a
+      class="menu-action-btn"
+      href="#"
+      title="Login"
+      aria-label="Login"
+      onclick="
+        if (
+          typeof openLoginModal === 'function' &&
+          document.getElementById('loginModal')
+        ) {
+          openLoginModal();
+        } else {
+          window.location.href = 'index.html';
+        }
+        return false;
+      "
+      style="color: inherit; text-decoration: none; font-size: 1.2rem"
+    >
+      <i class="fas fa-sign-in-alt"></i>
+    </a>
+  </div>
 </nav>

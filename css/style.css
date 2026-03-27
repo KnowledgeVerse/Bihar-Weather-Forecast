@@ -2727,3 +2727,17 @@ body.dark-mode #slideHeader {
     color: #ff5722;
   }
 }
+
+/* Styles for the quick actions dropdown */
+.menu-actions-container {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+.menu-actions-container #quickActionsDropdown {
+  display: none;
+  position: absolute;
+  bottom: 100%; /* Position above the button */
+  left: 0;
+}
