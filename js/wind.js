@@ -3,7 +3,10 @@ let map,
   phenomenaMarkersLayer,
   streetLayer,
   satelliteLayer,
-  hybridLayer;
+  hybridLayer,
+  lightThemeLayer,
+  openTopoMapLayer,
+  googleTerrainLayer;
 let districtWinds = {};
 let isLayoutEditMode = false;
 let zoomControl = null;
@@ -130,17 +133,15 @@ function initWindDisplay() {
             <select id="compareDateSelect" onchange="handleCompareDateChange(this.value)" class="layer-btn" style="display:none; font-weight:bold; cursor:pointer; border-color:#e74c3c; color:#c0392b;"></select>
             
             <div style="width:1px; height:20px; background:#ccc; margin:0 5px;"></div>
-            <button class="layer-btn" onclick="window.location.href='index.html'" title="Home"><i class="fas fa-home"></i></button>
-            <button class="layer-btn" onclick="window.location.href='live.html'" title="Live Preview"><i class="fas fa-tower-broadcast"></i></button>
-            <button class="layer-btn" onclick="window.location.href='temp.html'" title="Temperature Map"><i class="fas fa-temperature-high"></i></button>
-            <button class="layer-btn active" onclick="window.location.href='wind.html'" title="Wind Map"><i class="fas fa-wind"></i></button>
-            <button class="layer-btn" onclick="window.location.href='rain.html'" title="Rain Map"><i class="fas fa-cloud-showers-heavy"></i></button>
-            <button class="layer-btn" onclick="window.location.href='humidity.html'" title="Humidity Map"><i class="fas fa-tint"></i></button>
-            <button class="layer-btn" onclick="window.location.href='display.html'" title="Display Mode"><i class="fas fa-tv"></i></button>
-            <button class="layer-btn active" onclick="setLayer('street')" id="btnStreet">Street</button>
-            <button class="layer-btn" onclick="setLayer('satellite')" id="btnSat">Satellite</button>
-            <button class="layer-btn" onclick="setLayer('hybrid')" id="btnHybrid">Hybrid</button>
-            <button class="layer-btn" onclick="setLayer('clean')" id="btnClean">Clean</button>
+            <select id="layerSelector" class="layer-btn" onchange="setLayer(this.value)" style="font-weight:bold; cursor:pointer;">
+                <option value="solid_clear">Solid/Clear</option>
+                <option value="street" selected>Street</option>
+                <option value="satellite">Satellite</option>
+                <option value="hybrid">Hybrid</option>
+                <option value="light_theme">Light Theme</option>
+                <option value="opentopomap">OpenTopoMap</option>
+                <option value="google_terrain">Google Terrain</option>
+            </select>
             <button class="layer-btn" onclick="document.getElementById('mapBgInput').click()" title="Change Map Background"><i class="fas fa-palette"></i></button>
             <input type="color" id="mapBgInput" style="display:none" onchange="updateMapBackground(this.value)">
             <button class="layer-btn" onclick="toggleDarkMode()" id="btnDarkMode" title="Dark Mode"><i class="fas fa-moon"></i></button>
@@ -229,6 +230,29 @@ function initMap() {
 
   hybridLayer = L.tileLayer(
     "https://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}",
+    { attribution: "Google", maxZoom: 20 },
+  );
+
+  lightThemeLayer = L.tileLayer(
+    "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+    {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      maxZoom: 19,
+    },
+  );
+
+  openTopoMapLayer = L.tileLayer(
+    "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+    {
+      maxZoom: 17,
+      attribution:
+        'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+    },
+  );
+
+  googleTerrainLayer = L.tileLayer(
+    "http://mt0.google.com/vt/lyrs=p&hl=en&x={x}&y={y}&z={z}",
     { attribution: "Google", maxZoom: 20 },
   );
 
@@ -819,23 +843,24 @@ function setLayer(type) {
   if (map.hasLayer(streetLayer)) map.removeLayer(streetLayer);
   if (map.hasLayer(satelliteLayer)) map.removeLayer(satelliteLayer);
   if (map.hasLayer(hybridLayer)) map.removeLayer(hybridLayer);
-
-  document
-    .querySelectorAll(".layer-btn")
-    .forEach((b) => b.classList.remove("active"));
+  if (map.hasLayer(lightThemeLayer)) map.removeLayer(lightThemeLayer);
+  if (map.hasLayer(openTopoMapLayer)) map.removeLayer(openTopoMapLayer);
+  if (map.hasLayer(googleTerrainLayer)) map.removeLayer(googleTerrainLayer);
 
   if (type === "street") {
     map.addLayer(streetLayer);
-    document.getElementById("btnStreet").classList.add("active");
   } else if (type === "satellite") {
     map.addLayer(satelliteLayer);
-    document.getElementById("btnSat").classList.add("active");
   } else if (type === "hybrid") {
     map.addLayer(hybridLayer);
-    document.getElementById("btnHybrid").classList.add("active");
-  } else if (type === "clean") {
-    // No layer added
-    document.getElementById("btnClean").classList.add("active");
+  } else if (type === "light_theme") {
+    map.addLayer(lightThemeLayer);
+  } else if (type === "opentopomap") {
+    map.addLayer(openTopoMapLayer);
+  } else if (type === "google_terrain") {
+    map.addLayer(googleTerrainLayer);
+  } else if (type === "solid_clear") {
+    // Just clean background
   }
 }
 window.setLayer = setLayer;

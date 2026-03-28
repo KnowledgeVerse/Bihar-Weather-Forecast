@@ -210,22 +210,6 @@ function initDisplay() {
         </div>
 
         <div class="glass-toolbar">
-             <button class="glass-btn small-btn btn-blink-anim" onclick="window.location.href='index.html'" title="Home"><i class="fas fa-home"></i></button>
-             <button class="glass-btn small-btn" onclick="window.location.href='live.html'" title="Live Preview"><i class="fas fa-tower-broadcast"></i></button>
-             <button class="glass-btn small-btn" onclick="window.location.href='temp.html'" title="Temperature Map"><i class="fas fa-temperature-high"></i></button>
-             <button class="glass-btn small-btn" onclick="window.location.href='wind.html'" title="Wind Map"><i class="fas fa-wind"></i></button>
-             <button class="glass-btn small-btn" onclick="window.location.href='rain.html'" title="Rain Map"><i class="fas fa-cloud-showers-heavy"></i></button>
-             <button class="glass-btn small-btn" onclick="window.location.href='humidity.html'" title="Humidity Map"><i class="fas fa-tint"></i></button>
-             <button class="glass-btn small-btn active" onclick="window.location.href='display.html'" title="Display Mode"><i class="fas fa-tv"></i></button>
-             <div class="divider"></div>
-             <button class="glass-btn small-btn btn-blink-anim" onclick="window.location.href='bulletin.html'" title="Weather Bulletin"><i class="fas fa-clipboard-list"></i></button>
-             <button class="glass-btn small-btn" onclick="window.location.href='forecast.html'" title="7-Day Forecast"><i class="fas fa-calendar-day"></i></button>
-             <button class="glass-btn small-btn" onclick="window.location.href='warning.html'" title="7-Day Warning"><i class="fas fa-exclamation-triangle"></i></button>
-             <button class="glass-btn small-btn" onclick="window.location.href='Temperature_Forecast.html'" title="Min/Max Temp"><i class="fas fa-temperature-high"></i></button>
-             <button class="glass-btn small-btn" onclick="window.location.href='bulk_import.html'" title="Import Data"><i class="fas fa-file-import"></i></button>
-             <button class="glass-btn small-btn" onclick="window.location.href='max_min_rh.html'" title="Observed Data"><i class="fas fa-table"></i></button>
-             <div class="divider"></div>
-
              <label class="glass-btn small-btn" title="Select Images">
                 <i class="fas fa-folder-open"></i> Select
                 <input type="file" id="imgFolderInput" multiple accept="image/*" style="display:none" onchange="handleImageSelect(this)">

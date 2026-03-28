@@ -15,6 +15,9 @@ const tileLayerUrls = {
   satellite:
     "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
   hybrid: "https://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}",
+  light_theme: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+  opentopomap: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+  google_terrain: "http://mt0.google.com/vt/lyrs=p&hl=en&x={x}&y={y}&z={z}",
 };
 
 document.addEventListener("DOMContentLoaded", init);
@@ -696,7 +699,7 @@ function setAllMapsLayer(type) {
       map.currentTileLayer = null;
     }
     if (type !== "clean" && tileLayerUrls[type]) {
-      let options = { opacity: 1 };
+      let options = { opacity: 1, maxZoom: type === "opentopomap" ? 17 : 19 };
       if (type === "hybrid") options.subdomains = ["mt0", "mt1", "mt2", "mt3"];
       const newLayer = L.tileLayer(tileLayerUrls[type], {
         ...options,

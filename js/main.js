@@ -636,8 +636,10 @@ function attachHandlers() {
   document.getElementById("exportPDF").onclick = exportToPDF;
   document.getElementById("copyClipboard").onclick = copyToClipboard;
 
-  document.getElementById("langToggle").onclick = toggleLanguage;
-  document.getElementById("backToTop").onclick = scrollToTop;
+  const langToggleBtn = document.getElementById("langToggle");
+  if (langToggleBtn) langToggleBtn.onclick = toggleLanguage;
+  const backToTopBtn = document.getElementById("backToTop");
+  if (backToTopBtn) backToTopBtn.onclick = scrollToTop;
   document.getElementById("toggleFoothill").onchange = (e) => {
     showFoothill = e.target.checked;
     updateMapStyle();
@@ -702,12 +704,14 @@ function attachHandlers() {
   document.querySelectorAll(".map-region-check").forEach((cb) => {
     cb.onchange = (e) => toggleMapRegion(e.target.value, e.target.checked);
   });
-  document.getElementById("openDisplayHeader").onclick = () => {
-    window.open("display.html", "_blank");
-  };
-  document.getElementById("openLivePreview").onclick = () => {
-    window.open("live.html", "_blank");
-  };
+  const openDisplayHeader = document.getElementById("openDisplayHeader");
+  if (openDisplayHeader) {
+    openDisplayHeader.onclick = () => window.open("display.html", "_blank");
+  }
+  const openLivePreview = document.getElementById("openLivePreview");
+  if (openLivePreview) {
+    openLivePreview.onclick = () => window.open("live.html", "_blank");
+  }
   document.getElementById("toggleAudioEffects").onchange = (e) => {
     isAudioEnabled = e.target.checked;
     const slider = document.getElementById("audioVolumeSlider");
@@ -743,7 +747,8 @@ function attachHandlers() {
     if (ind) ind.style.display = "none";
   };
 
-  document.getElementById("userLogoBtn").onclick = handleUserLogoClick;
+  const userLogoBtn = document.getElementById("userLogoBtn");
+  if (userLogoBtn) userLogoBtn.onclick = handleUserLogoClick;
 
   // ---------- INDEPENDENT STATE HANDLERS ----------
 
@@ -2390,7 +2395,7 @@ function toggleLanguage() {
 function updateLanguageUI() {
   const t = uiTranslations[currentLang];
   const btn = document.getElementById("langToggle");
-  btn.innerText = currentLang.toUpperCase();
+  if (btn) btn.innerText = currentLang.toUpperCase();
 
   // Header
   document.querySelector("header h1").innerText = t.title;
@@ -3352,7 +3357,15 @@ window.onclick = function (event) {
 };
 
 // ---------- Map & Shapefile ----------
-let map, geojsonLayer, tileLayer, satelliteLayer, hybridLayer, mapDateControl;
+let map,
+  geojsonLayer,
+  tileLayer,
+  satelliteLayer,
+  hybridLayer,
+  lightThemeLayer,
+  openTopoMapLayer,
+  googleTerrainLayer,
+  mapDateControl;
 let zoomControl = null;
 
 function initMap() {
@@ -3407,6 +3420,31 @@ function initMap() {
 
   hybridLayer = L.tileLayer(
     "http://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}",
+    { attribution: "Google", maxZoom: 20, crossOrigin: true },
+  );
+
+  lightThemeLayer = L.tileLayer(
+    "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+    {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19,
+      crossOrigin: true,
+    },
+  );
+
+  openTopoMapLayer = L.tileLayer(
+    "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+    {
+      maxZoom: 17,
+      attribution:
+        'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      crossOrigin: true,
+    },
+  );
+
+  googleTerrainLayer = L.tileLayer(
+    "http://mt0.google.com/vt/lyrs=p&hl=en&x={x}&y={y}&z={z}",
     { attribution: "Google", maxZoom: 20, crossOrigin: true },
   );
 
@@ -4503,6 +4541,9 @@ function changeMapLayer(type) {
   if (map.hasLayer(tileLayer)) map.removeLayer(tileLayer);
   if (map.hasLayer(satelliteLayer)) map.removeLayer(satelliteLayer);
   if (map.hasLayer(hybridLayer)) map.removeLayer(hybridLayer);
+  if (map.hasLayer(lightThemeLayer)) map.removeLayer(lightThemeLayer);
+  if (map.hasLayer(openTopoMapLayer)) map.removeLayer(openTopoMapLayer);
+  if (map.hasLayer(googleTerrainLayer)) map.removeLayer(googleTerrainLayer);
 
   const mapDiv = document.getElementById("map");
 
@@ -4515,6 +4556,15 @@ function changeMapLayer(type) {
   } else if (type === "hybrid") {
     map.addLayer(hybridLayer);
     if (mapDiv) mapDiv.style.background = ""; // Reset to CSS default
+  } else if (type === "light_theme") {
+    map.addLayer(lightThemeLayer);
+    if (mapDiv) mapDiv.style.background = "";
+  } else if (type === "opentopomap") {
+    map.addLayer(openTopoMapLayer);
+    if (mapDiv) mapDiv.style.background = "";
+  } else if (type === "google_terrain") {
+    map.addLayer(googleTerrainLayer);
+    if (mapDiv) mapDiv.style.background = "";
   } else if (type === "clean") {
     const savedMapBg = localStorage.getItem("bihar_map_bg");
     if (mapDiv) mapDiv.style.background = savedMapBg || "rgb(125, 150, 150)";

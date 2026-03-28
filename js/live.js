@@ -222,7 +222,10 @@ let map,
   streetLayer,
   satelliteLayer,
   hybridLayer,
-  radarLayer;
+  radarLayer,
+  lightThemeLayer,
+  openTopoMapLayer,
+  googleTerrainLayer;
 let districtPhenomenaMap = {};
 let showFoothill = true;
 let isPlaying = true;
@@ -352,25 +355,15 @@ function initLiveDisplay() {
         </div>
         
         <div class="live-controls-row">
-            <button class="layer-btn btn-blink-anim" onclick="window.location.href='index.html'" title="Home"><i class="fas fa-home"></i></button>
-            <button class="layer-btn active" onclick="window.location.href='live.html'" title="Live Preview"><i class="fas fa-tower-broadcast"></i></button>
-            <button class="layer-btn" onclick="window.location.href='temp.html'" title="Temperature Map"><i class="fas fa-temperature-high"></i></button>
-            <button class="layer-btn" onclick="window.location.href='wind.html'" title="Wind Map"><i class="fas fa-wind"></i></button>
-            <button class="layer-btn" onclick="window.location.href='rain.html'" title="Rain Map"><i class="fas fa-cloud-showers-heavy"></i></button>
-            <button class="layer-btn" onclick="window.location.href='humidity.html'" title="Humidity Map"><i class="fas fa-tint"></i></button>
-            <button class="layer-btn" onclick="window.location.href='display.html'" title="Display Mode"><i class="fas fa-tv"></i></button>
-            <div style="width:1px; height:20px; background:#ccc; margin:0 5px;"></div>
-            <button class="layer-btn btn-blink-anim" onclick="window.location.href='bulletin.html'" title="Weather Bulletin"><i class="fas fa-clipboard-list"></i></button>
-            <button class="layer-btn" onclick="window.location.href='forecast.html'" title="7-Day Forecast"><i class="fas fa-calendar-day"></i></button>
-            <button class="layer-btn" onclick="window.location.href='warning.html'" title="7-Day Warning"><i class="fas fa-exclamation-triangle"></i></button>
-            <button class="layer-btn" onclick="window.location.href='Temperature_Forecast.html'" title="Min/Max Temp"><i class="fas fa-temperature-high"></i></button>
-            <button class="layer-btn" onclick="window.location.href='bulk_import.html'" title="Import Data"><i class="fas fa-file-import"></i></button>
-            <button class="layer-btn" onclick="window.location.href='max_min_rh.html'" title="Observed Data"><i class="fas fa-table"></i></button>
-            <div style="width:1px; height:20px; background:#ccc; margin:0 5px;"></div>
-            <button class="layer-btn active" onclick="setLayer('street')" id="btnStreet">Street</button>
-            <button class="layer-btn" onclick="setLayer('satellite')" id="btnSat">Satellite</button>
-            <button class="layer-btn" onclick="setLayer('hybrid')" id="btnHybrid">Hybrid</button>
-            <button class="layer-btn" onclick="setLayer('clean')" id="btnClean">Clean</button>
+            <select id="layerSelector" class="layer-btn" onchange="setLayer(this.value)" style="font-weight:bold; cursor:pointer;">
+                <option value="solid_clear">Solid/Clear</option>
+                <option value="street" selected>Street</option>
+                <option value="satellite">Satellite</option>
+                <option value="hybrid">Hybrid</option>
+                <option value="light_theme">Light Theme</option>
+                <option value="opentopomap">OpenTopoMap</option>
+                <option value="google_terrain">Google Terrain</option>
+            </select>
             <button class="layer-btn" onclick="toggleRadar(this)" id="btnRadar" style="margin-left:5px; border-color:#e74c3c; color:#e74c3c;"><i class="fas fa-satellite-dish"></i> Radar</button>
             <button class="layer-btn" onclick="toggleDarkMode()" id="btnDarkMode" title="Dark Mode"><i class="fas fa-moon"></i></button>
             <label class="layer-btn" style="display:flex; align-items:center; gap:5px; cursor:pointer;">
@@ -470,6 +463,29 @@ function initMap() {
 
   hybridLayer = L.tileLayer(
     "https://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}",
+    { attribution: "Google", maxZoom: 20 },
+  );
+
+  lightThemeLayer = L.tileLayer(
+    "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+    {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      maxZoom: 19,
+    },
+  );
+
+  openTopoMapLayer = L.tileLayer(
+    "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+    {
+      maxZoom: 17,
+      attribution:
+        'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+    },
+  );
+
+  googleTerrainLayer = L.tileLayer(
+    "http://mt0.google.com/vt/lyrs=p&hl=en&x={x}&y={y}&z={z}",
     { attribution: "Google", maxZoom: 20 },
   );
 
@@ -969,26 +985,29 @@ function getDistrictRegionColor(id) {
 }
 
 function setLayer(type) {
+  // Remove all existing base layers
   if (map.hasLayer(streetLayer)) map.removeLayer(streetLayer);
   if (map.hasLayer(satelliteLayer)) map.removeLayer(satelliteLayer);
   if (map.hasLayer(hybridLayer)) map.removeLayer(hybridLayer);
+  if (map.hasLayer(lightThemeLayer)) map.removeLayer(lightThemeLayer);
+  if (map.hasLayer(openTopoMapLayer)) map.removeLayer(openTopoMapLayer);
+  if (map.hasLayer(googleTerrainLayer)) map.removeLayer(googleTerrainLayer);
 
-  document
-    .querySelectorAll(".layer-btn")
-    .forEach((b) => b.classList.remove("active"));
-
+  // Add the selected layer
   if (type === "street") {
     map.addLayer(streetLayer);
-    document.getElementById("btnStreet").classList.add("active");
   } else if (type === "satellite") {
     map.addLayer(satelliteLayer);
-    document.getElementById("btnSat").classList.add("active");
   } else if (type === "hybrid") {
     map.addLayer(hybridLayer);
-    document.getElementById("btnHybrid").classList.add("active");
-  } else if (type === "clean") {
+  } else if (type === "light_theme") {
+    map.addLayer(lightThemeLayer);
+  } else if (type === "opentopomap") {
+    map.addLayer(openTopoMapLayer);
+  } else if (type === "google_terrain") {
+    map.addLayer(googleTerrainLayer);
+  } else if (type === "solid_clear") {
     // No layer added, just clean background
-    document.getElementById("btnClean").classList.add("active");
   }
 }
 window.setLayer = setLayer;

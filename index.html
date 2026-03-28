@@ -178,8 +178,38 @@
     <!-- Menu Container -->
     <div id="menu-container"></div>
 
+    <!-- Sign In / User Profile (Top Right) -->
+    <div
+      class="user-profile-container"
+      style="position: fixed; top: 15px; right: 15px; z-index: 9999"
+    >
+      <img
+        src="logo/sign_in_logo.png"
+        id="userLogoBtn"
+        class="user-logo"
+        title="Click to Sign In"
+        style="width: 40px; height: 40px; cursor: pointer; border-radius: 50%"
+      />
+      <div
+        id="userDropdown"
+        class="user-dropdown"
+        style="
+          display: none;
+          position: absolute;
+          top: 50px;
+          right: 0;
+          background: white;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          padding: 10px;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+          min-width: 150px;
+          text-align: left;
+        "
+      ></div>
+    </div>
+
     <header id="topHeader">
-      <button id="headerToggleBtn" title="Collapse Header">▲</button>
       <!-- Left Gov Logo -->
       <img src="assets/logo.png" class="gov-logo" alt="Government Logo" />
 
@@ -195,242 +225,12 @@
       >
         <h1>बिहार मौसम पूर्वानुमान प्रणाली</h1>
         <h2 style="display: none">Bihar Weather Forecast System</h2>
-
-        <div
-          class="header-actions"
-          style="
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-top: 5px;
-            flex-wrap: wrap;
-            justify-content: center;
-          "
-        >
-          <a
-            href="https://biharmausam.com/"
-            class="glow-btn relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-md transition-all duration-300"
-            title="Go to Bihar Mausam Main Page"
-          >
-            <span
-              class="relative px-3 py-1.5 transition-all ease-in-out duration-75 bg-white rounded-md group-hover:bg-opacity-0 flex items-center gap-2"
-            >
-              <!-- Icon -->
-              <i
-                class="fa-solid fa-house-chimney text-blue-600 group-hover:text-white"
-              ></i>
-
-              <!-- Text -->
-              <span class="font-bold">मुख्य वेबसाइट</span>
-            </span>
-          </a>
-          <button
-            class="btn-display-anim"
-            title="Main Page"
-            onclick="window.location.href = 'index.html'"
-          >
-            <i class="fas fa-home"></i>
-          </button>
-          <button
-            id="openLivePreview"
-            class="btn-display-anim system-live-btn"
-            title="Live Map Preview (7 Days)"
-            onclick="window.open('live.html', '_blank')"
-          >
-            <i class="fas fa-tower-broadcast"></i>
-          </button>
-          <button
-            id="openTempMap"
-            class="btn-display-anim"
-            title="Live Temperature Map"
-            onclick="window.open('temp.html', '_blank')"
-          >
-            <i class="fas fa-temperature-high"></i>
-          </button>
-          <button
-            id="openWindMap"
-            class="btn-display-anim"
-            title="Live Wind Map"
-            onclick="window.open('wind.html', '_blank')"
-          >
-            <i class="fas fa-wind"></i>
-          </button>
-          <button
-            id="openRainMap"
-            class="btn-display-anim"
-            title="Live Rain Map"
-            onclick="window.open('rain.html', '_blank')"
-          >
-            <i class="fas fa-cloud-showers-heavy"></i>
-          </button>
-          <button
-            id="openHumidityMap"
-            class="btn-display-anim"
-            title="Live Humidity Map"
-            onclick="window.open('humidity.html', '_blank')"
-          >
-            <i class="fas fa-tint"></i>
-          </button>
-          <button
-            id="openDisplayHeader"
-            class="btn-display-anim"
-            title="Live Display Mode"
-            onclick="window.open('display.html', '_blank')"
-          >
-            <i class="fas fa-tv"></i>
-          </button>
-
-          <div
-            style="width: 1px; height: 30px; background: #ccc; margin: 0 5px"
-          ></div>
-
-          <button
-            class="btn-secondary btn-blink-anim"
-            title="Weather Bulletin"
-            onclick="window.location.href = 'bulletin.html'"
-          >
-            <i class="fas fa-clipboard-list"></i>
-          </button>
-
-          <div
-            style="width: 1px; height: 30px; background: #ccc; margin: 0 5px"
-          ></div>
-
-          <button
-            id="bgChangeBtn"
-            class="btn-secondary"
-            title="Change Background Color"
-          >
-            <i class="fas fa-palette"></i>
-          </button>
-          <input
-            type="color"
-            id="bgColorInput"
-            style="display: none"
-            onchange="changeBodyBackground(this.value)"
-          />
-          <button
-            id="btnDarkMode"
-            class="btn-secondary"
-            title="Toggle Dark Mode"
-            onclick="toggleDarkMode()"
-          >
-            <i class="fas fa-moon"></i>
-          </button>
-          <button
-            id="langToggle"
-            class="btn-secondary"
-            title="Switch Language (HI/EN)"
-          >
-            HI
-          </button>
-          <!-- User Logo / Sign In Trigger -->
-          <div class="user-profile-container">
-            <img
-              src="logo/sign_in_logo.png"
-              id="userLogoBtn"
-              class="user-logo"
-              title="Click to Sign In / Menu"
-            />
-            <div id="userDropdown" class="user-dropdown">
-              <!-- Menu items injected by JS -->
-            </div>
-          </div>
-        </div>
-
-        <div
-          style="width: 90%; height: 1px; background: #e0e0e0; margin: 10px 0"
-        ></div>
-
-        <div
-          class="header-actions-secondary"
-          style="
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 5px;
-          "
-        >
-          <button
-            class="btn-secondary"
-            title="Generate_Weather_Bulletin"
-            onclick="window.location.href = 'Generate_Weather_Bulletin.html'"
-          >
-            <i class="fas fa-file-lines"></i>
-          </button>
-          <button
-            class="btn-secondary"
-            title="Observed Data"
-            onclick="window.location.href = 'max_min_rh.html'"
-          >
-            <i class="fas fa-table"></i>
-          </button>
-          <button
-            class="btn-secondary"
-            title="Weather Summary"
-            onclick="window.location.href = 'Weather_summary.html'"
-          >
-            <i class="fas fa-file-alt"></i>
-          </button>
-          <button
-            class="btn-secondary"
-            title="Detailed Forecast"
-            onclick="window.location.href = 'Detailed_Weather_Forecast.html'"
-          >
-            <i class="fas fa-list-alt"></i>
-          </button>
-          <button
-            class="btn-secondary"
-            title="Warning Table"
-            onclick="window.location.href = 'Weather_Warning_Table.html'"
-          >
-            <i class="fas fa-table"></i>
-          </button>
-          <button
-            class="btn-secondary"
-            title="Temperature Import"
-            onclick="window.location.href = 'bulk_import.html'"
-          >
-            <i class="fas fa-file-import"></i>
-          </button>
-          <button
-            class="btn-secondary"
-            title="Min/Max Temperature"
-            onclick="window.location.href = 'Temperature_Forecast.html'"
-          >
-            <i class="fas fa-temperature-high"></i>
-          </button>
-          <button
-            class="btn-secondary"
-            title="7-Day Forecast"
-            onclick="window.location.href = 'forecast.html'"
-          >
-            <i class="fas fa-calendar-day"></i>
-          </button>
-          <button
-            class="btn-secondary"
-            title="7-Day Warning"
-            onclick="window.location.href = 'warning.html'"
-          >
-            <i class="fas fa-exclamation-triangle"></i>
-          </button>
-          <button
-            class="btn-secondary"
-            title="Bulletin Footer"
-            onclick="window.location.href = 'bulletin_footer.html'"
-          >
-            <i class="fas fa-file-signature"></i>
-          </button>
-          <button
-            class="btn-secondary"
-            title="SYNOP Decoder"
-            onclick="window.location.href = 'synop.html'"
-          >
-            <i class="fas fa-code"></i>
-          </button>
-        </div>
+        <input
+          type="color"
+          id="bgColorInput"
+          style="display: none"
+          onchange="changeBodyBackground(this.value)"
+        />
       </div>
     </header>
 
@@ -678,10 +478,13 @@
                     cursor: pointer;
                   "
                 >
+                  <option value="clean" selected>Solid/Clear</option>
                   <option value="street">Street</option>
                   <option value="satellite">Satellite</option>
                   <option value="hybrid">Hybrid</option>
-                  <option value="clean" selected>Clear BG</option>
+                  <option value="light_theme">Light Theme</option>
+                  <option value="opentopomap">OpenTopoMap</option>
+                  <option value="google_terrain">Google Terrain</option>
                 </select>
               </div>
               <label class="icon-toggle-label" title="Foothill (Map Show)">
@@ -876,6 +679,60 @@
               />
             </div>
             <div class="map-sub-regions">
+              <button
+                class="btn-secondary small-btn"
+                style="
+                  background-color: #dc3545;
+                  color: white;
+                  padding: 2px 8px;
+                  border-radius: 4px;
+                  margin-right: 5px;
+                  cursor: pointer;
+                  border: none;
+                "
+                onclick="
+                  clearDistrictSelection();
+                  document
+                    .querySelectorAll(
+                      '.map-region-check, .map-region-all-check',
+                    )
+                    .forEach((cb) => (cb.checked = false));
+                "
+                title="Clear Map Selection"
+              >
+                <i class="fas fa-times"></i> Clear
+              </button>
+              <label
+                class="checkbox-container small-checkbox"
+                title="All Bihar Districts"
+              >
+                <input
+                  type="checkbox"
+                  value="ALL"
+                  class="map-region-all-check"
+                  onchange="
+                    if (this.checked) {
+                      selectAllDistricts();
+                      document
+                        .querySelectorAll('.map-region-check')
+                        .forEach((cb) => (cb.checked = true));
+                    } else {
+                      clearDistrictSelection();
+                      document
+                        .querySelectorAll('.map-region-check')
+                        .forEach((cb) => (cb.checked = false));
+                    }
+                  "
+                /><span class="checkmark"></span>ALL
+              </label>
+              <div
+                style="
+                  width: 1px;
+                  height: 20px;
+                  background: #ccc;
+                  margin: 0 5px;
+                "
+              ></div>
               <label
                 class="checkbox-container small-checkbox"
                 title="North Bihar Foothill Districts"
@@ -1166,51 +1023,82 @@
         </div>
 
         <div class="control-panel">
-          <!-- Regional -->
-          <div id="regionalGroups" class="selection-container">
-            <label>क्षेत्रीय समूह चुनें:</label>
-            <div class="district-grid" id="regionalGrid"></div>
-            <button
-              type="button"
-              class="btn-secondary same-size"
-              onclick="selectAllRegions()"
-            >
-              सभी चुनें / Select All
-            </button>
-            <button
-              type="button"
-              class="btn-secondary same-size"
-              onclick="clearRegionalSelection()"
-            >
-              साफ़ करें / Clear All
-            </button>
-          </div>
+          <!-- Toggle Button for Selections -->
+          <button
+            id="toggleSelectionPanelsBtn"
+            class="btn-primary"
+            style="
+              width: 100%;
+              margin-bottom: 15px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              gap: 8px;
+            "
+            onclick="
+              const p = document.getElementById('selectionPanelsWrapper');
+              if (p.style.display === 'none') {
+                p.style.display = 'block';
+                this.innerHTML =
+                  '<i class=\'fas fa-eye-slash\'></i> Hide Selection Options';
+              } else {
+                p.style.display = 'none';
+                this.innerHTML =
+                  '<i class=\'fas fa-eye\'></i> Show Selection Options (Regional & District)';
+              }
+            "
+          >
+            <i class="fas fa-eye"></i> Show Selection Options (Regional &
+            District)
+          </button>
 
-          <!-- Multiple -->
-          <div id="multipleDistricts" class="selection-container">
-            <label>एकाधिक जिले चुनें:</label>
-            <input
-              type="text"
-              id="districtSearch"
-              class="same-size"
-              placeholder="Search District..."
-              style="width: 100%; margin-bottom: 10px"
-            />
-            <div class="district-grid" id="districtGrid"></div>
-            <button
-              type="button"
-              class="btn-secondary same-size"
-              onclick="selectAllDistricts()"
-            >
-              सभी चुनें
-            </button>
-            <button
-              type="button"
-              class="btn-secondary same-size"
-              onclick="clearDistrictSelection()"
-            >
-              साफ़ करें
-            </button>
+          <div id="selectionPanelsWrapper" style="display: none">
+            <!-- Regional -->
+            <div id="regionalGroups" class="selection-container">
+              <label>क्षेत्रीय समूह चुनें:</label>
+              <div class="district-grid" id="regionalGrid"></div>
+              <button
+                type="button"
+                class="btn-secondary same-size"
+                onclick="selectAllRegions()"
+              >
+                सभी चुनें / Select All
+              </button>
+              <button
+                type="button"
+                class="btn-secondary same-size"
+                onclick="clearRegionalSelection()"
+              >
+                साफ़ करें / Clear All
+              </button>
+            </div>
+
+            <!-- Multiple -->
+            <div id="multipleDistricts" class="selection-container">
+              <label>एकाधिक जिले चुनें:</label>
+              <input
+                type="text"
+                id="districtSearch"
+                class="same-size"
+                placeholder="Search District..."
+                style="width: 100%; margin-bottom: 10px"
+              />
+              <div class="district-grid" id="districtGrid"></div>
+              <button
+                type="button"
+                class="btn-secondary same-size"
+                onclick="selectAllDistricts()"
+              >
+                सभी चुनें
+              </button>
+              <button
+                type="button"
+                class="btn-secondary same-size"
+                onclick="clearDistrictSelection()"
+              >
+                साफ़ करें
+              </button>
+            </div>
           </div>
 
           <!-- Place count -->
@@ -1580,24 +1468,6 @@
           } else {
             // Unchecked = White/Grey = Hide Header
             header.classList.add("hidden-header");
-          }
-        });
-      }
-
-      // --- Word-Style Header Collapse Logic ---
-      const topHeader = document.getElementById("topHeader");
-      const headerToggleBtn = document.getElementById("headerToggleBtn");
-
-      if (headerToggleBtn && topHeader) {
-        headerToggleBtn.addEventListener("click", () => {
-          topHeader.classList.toggle("header-collapsed");
-
-          if (topHeader.classList.contains("header-collapsed")) {
-            headerToggleBtn.textContent = "▼";
-            headerToggleBtn.title = "Expand Header";
-          } else {
-            headerToggleBtn.textContent = "▲";
-            headerToggleBtn.title = "Collapse Header";
           }
         });
       }

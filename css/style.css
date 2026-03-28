@@ -1451,10 +1451,15 @@ body.logged-in .special-feature {
   cursor: pointer;
   transition: all 0.3s ease;
   border: 2px solid transparent;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .user-logo:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
+  box-shadow:
+    0 0 15px rgba(37, 99, 235, 0.8),
+    0 0 25px rgba(13, 148, 136, 0.6);
+  border-color: rgba(255, 255, 255, 0.8);
 }
 
 /* Copy Days Checkbox Grid */
