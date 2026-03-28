@@ -66,6 +66,58 @@ body.sidebar-collapsed .sidebar-header {
   color: #3498db;
 }
 
+/* --- Animated Hamburger Toggle (From Uiverse.io by JkHuger) --- */
+.label-check {
+  display: none;
+}
+
+.hamburger-label {
+  width: 30px;
+  height: 22px;
+  display: block;
+  cursor: pointer;
+  position: relative;
+  pointer-events: none; /* Let parent #sidebarToggle handle clicks */
+}
+
+.hamburger-label div {
+  width: 30px;
+  height: 3px;
+  background-color: #fff;
+  position: absolute;
+  border-radius: 2px;
+  left: 0;
+}
+
+.line1 {
+  transition: all 0.3s;
+}
+.line2 {
+  margin: 9px 0 0 0;
+  transition: 0.3s;
+}
+.line3 {
+  margin: 18px 0 0 0;
+  transition: 0.3s;
+}
+
+/* Synced with sidebar-collapsed state for perfect integration */
+body.sidebar-collapsed .line1 {
+  transform: rotate(35deg) scaleX(0.55) translate(17px, -3px);
+  border-radius: 50px 50px 50px 0;
+}
+
+body.sidebar-collapsed .line3 {
+  transform: rotate(-35deg) scaleX(0.55) translate(17px, 3px);
+  border-radius: 0 50px 50px 50px;
+}
+
+body.sidebar-collapsed .line2 {
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  width: 19px;
+}
+
 .menu-root {
   list-style: none;
   margin: 0;
@@ -84,9 +136,10 @@ body.sidebar-collapsed .sidebar-header {
 }
 
 .menu-actions {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
 }
 
 .menu-action-btn {
@@ -141,8 +194,8 @@ body.sidebar-collapsed .menu-actions-item {
 }
 
 body.sidebar-collapsed .menu-actions {
-  grid-template-columns: 1fr;
-  gap: 8px;
+  flex-direction: column;
+  gap: 15px;
 }
 
 body.sidebar-collapsed .menu-action-btn {
@@ -221,31 +274,54 @@ body.sidebar-collapsed .submenu li a {
   justify-content: center;
 }
 
-/* When collapsed, pop out submenu instead of expanding down */
-body.sidebar-collapsed .menu-item.dropdown.open > .submenu {
+.submenu li a .menu-icon {
+  font-size: 1em; /* Smaller icons for submenu items globally */
+}
+
+@keyframes fadeInSubmenu {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* When collapsed, pop out submenu on hover instead of click */
+body.sidebar-collapsed .menu-item.dropdown > .submenu {
+  display: none !important; /* Force hide unless hovered */
+}
+
+body.sidebar-collapsed .menu-item.dropdown:hover > .submenu {
   position: absolute;
   top: 0;
   left: var(--sidebar-collapsed-width);
-  width: 240px;
+  width: 220px;
   background-color: #1a252f;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
-  display: block;
+  display: block !important;
   border-radius: 0 5px 5px 0;
   border: 1px solid #3b4f63;
   border-left: none;
+  z-index: 10000;
+  animation: fadeInSubmenu 0.3s ease-out forwards;
 }
 
-body.sidebar-collapsed .menu-item.dropdown.open > .submenu li a {
-  padding: 12px 20px;
+body.sidebar-collapsed .menu-item.dropdown:hover > .submenu li a {
+  padding: 10px 15px;
   justify-content: flex-start;
 }
 
-body.sidebar-collapsed .menu-item.dropdown.open > .submenu .menu-text {
+body.sidebar-collapsed .menu-item.dropdown:hover > .submenu .menu-text {
   display: inline-block;
+  font-size: 0.9em;
 }
 
-body.sidebar-collapsed .menu-item.dropdown.open > .submenu .menu-icon {
-  margin-right: 15px;
+body.sidebar-collapsed .menu-item.dropdown:hover > .submenu .menu-icon {
+  margin-right: 10px;
+  font-size: 0.9em;
 }
 
 /* Style for the active parent menu item (top-level) */
@@ -267,4 +343,77 @@ body.sidebar-collapsed .menu-item.active-parent > a {
   background-color: #0056b3;
   color: #ffffff;
   font-weight: bold;
+}
+
+/* --- Language Switcher (From Uiverse.io by victoryamaykin) --- */
+.lang-switch {
+  position: relative;
+  display: inline-block;
+  width: 70px;
+  height: 34px;
+}
+
+.lang-switch input {
+  display: none;
+}
+
+.lang-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #3c3c3c;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.lang-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.lang-switch input:checked + .lang-slider {
+  background-color: #0e6eb8;
+}
+
+.lang-switch input:focus + .lang-slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+.lang-switch input:checked + .lang-slider:before {
+  -webkit-transform: translateX(36px);
+  -ms-transform: translateX(36px);
+  transform: translateX(36px); /* Fixed from 85px to stay inside container */
+}
+
+.lang-slider:after {
+  content: "HI";
+  color: white;
+  display: block;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50px;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: Verdana, sans-serif;
+  z-index: 1;
+  transition: left 0.4s ease-in-out;
+}
+
+.lang-switch input:checked + .lang-slider:after {
+  content: "EN";
+  left: 20px;
 }

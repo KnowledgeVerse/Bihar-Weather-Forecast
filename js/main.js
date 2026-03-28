@@ -2397,6 +2397,12 @@ function updateLanguageUI() {
   const btn = document.getElementById("langToggle");
   if (btn) btn.innerText = currentLang.toUpperCase();
 
+  // Sync language switch toggle state
+  const langChk = document.getElementById("langSwitchCheckbox");
+  if (langChk) {
+    langChk.checked = currentLang === "en";
+  }
+
   // Header
   document.querySelector("header h1").innerText = t.title;
   const h2 = document.querySelector("header h2");
