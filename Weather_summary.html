@@ -8,10 +8,10 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
+    <link rel="stylesheet" href="css/style.css" />
     <style>
       body {
         font-family: "Arial", sans-serif;
-        background-color: #f5f5f5;
         padding: 0;
         margin: 0;
         line-height: 1.25;
@@ -518,6 +518,10 @@
         </div>
         <div id="maxCustomLogicContainer" style="display:none; background:#f9f9f9; padding:10px; border:1px solid #ddd; margin-bottom:10px; border-radius:4px;">
             <div class="tt-row">
+                <label>Area (Multi-Select):</label>
+                <div id="max_obs_area_container" style="width:100%;" onchange="updateObsPreview('max')"></div>
+            </div>
+            <div class="tt-row">
                 <label>Region:</label>
                 <select id="max_obs_region" class="tt-select-large" onchange="updateObsPreview('max')">
                     <option value="राज्य के अधिकांश स्थानों">राज्य के अधिकांश स्थानों</option>
@@ -535,9 +539,49 @@
                 <select id="max_obs_change" class="tt-select-medium" onchange="updateObsPreview('max')">
                     <option value="वृद्धि">वृद्धि (Rise)</option>
                     <option value="गिरावट">गिरावट (Fall)</option>
+                    <option value="क्रमिक वृद्धि">क्रमिक वृद्धि (Gradual Rise)</option>
+                    <option value="क्रमिक गिरावट">क्रमिक गिरावट (Gradual Fall)</option>
                     <option value="कोई विशेष परिवर्तन नहीं">कोई विशेष परिवर्तन नहीं</option>
                 </select>
                 <label>दर्ज की गई।</label>
+            </div>
+            <div class="checkbox-wrapper" style="margin-top: 10px;">
+                <input type="checkbox" id="max_obs_sec_enable" onchange="toggleObsSec('max')">
+                <label for="max_obs_sec_enable">Enable Secondary Trend</label>
+            </div>
+            <div id="max_obs_sec_container" style="display:none; margin-bottom: 10px; padding: 10px; border: 1px dashed #ccc; background: #fff; border-radius: 4px;">
+                <div class="tt-row">
+                    <label>Secondary Area (Multi-Select):</label>
+                    <div id="max_obs_sec_area_container" style="width:100%;" onchange="updateObsPreview('max')"></div>
+                </div>
+                <div class="tt-row">
+                    <label>Secondary Region:</label>
+                    <select id="max_obs_sec_region" class="tt-select-large" onchange="updateObsPreview('max')">
+                        <option value="शेष भागों के अधिकांश स्थानों">शेष भागों के अधिकांश स्थानों</option>
+                        <option value="शेष भागों के अनेक स्थानों" selected>शेष भागों के अनेक स्थानों</option>
+                        <option value="शेष भागों के कुछ स्थानों">शेष भागों के कुछ स्थानों</option>
+                        <option value="शेष भागों के एक या दो स्थानों">शेष भागों के एक या दो स्थानों</option>
+                        <option value="राज्य के अधिकांश स्थानों">राज्य के अधिकांश स्थानों</option>
+                        <option value="राज्य के अनेक स्थानों">राज्य के अनेक स्थानों</option>
+                        <option value="राज्य के कुछ स्थानों">राज्य के कुछ स्थानों</option>
+                        <option value="राज्य के एक या दो स्थानों">राज्य के एक या दो स्थानों</option>
+                    </select>
+                </div>
+                <div class="tt-row">
+                    <label>Change:</label>
+                    <div id="max_obs_sec_amount_wrapper" style="display:inline-flex; align-items:center; gap:5px;">
+                        <input type="text" id="max_obs_sec_amount" class="tt-input-medium" value="1-3" oninput="updateObsPreview('max')">
+                        <label>°C की</label>
+                    </div>
+                    <select id="max_obs_sec_change" class="tt-select-medium" onchange="updateObsPreview('max')">
+                        <option value="वृद्धि">वृद्धि (Rise)</option>
+                        <option value="गिरावट">गिरावट (Fall)</option>
+                        <option value="क्रमिक वृद्धि">क्रमिक वृद्धि (Gradual Rise)</option>
+                        <option value="क्रमिक गिरावट">क्रमिक गिरावट (Gradual Fall)</option>
+                        <option value="कोई विशेष परिवर्तन नहीं" selected>कोई विशेष परिवर्तन नहीं</option>
+                    </select>
+                    <label>दर्ज की गई।</label>
+                </div>
             </div>
             <label>Preview (Editable):</label>
             <textarea id="max_obs_preview" class="form-control" rows="3" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;"></textarea>
@@ -578,6 +622,10 @@
         </div>
         <div id="minCustomLogicContainer" style="display:none; background:#f9f9f9; padding:10px; border:1px solid #ddd; margin-bottom:10px; border-radius:4px;">
             <div class="tt-row">
+                <label>Area (Multi-Select):</label>
+                <div id="min_obs_area_container" style="width:100%;" onchange="updateObsPreview('min')"></div>
+            </div>
+            <div class="tt-row">
                 <label>Region:</label>
                 <select id="min_obs_region" class="tt-select-large" onchange="updateObsPreview('min')">
                     <option value="राज्य के अधिकांश स्थानों">राज्य के अधिकांश स्थानों</option>
@@ -595,9 +643,49 @@
                 <select id="min_obs_change" class="tt-select-medium" onchange="updateObsPreview('min')">
                     <option value="वृद्धि">वृद्धि (Rise)</option>
                     <option value="गिरावट">गिरावट (Fall)</option>
+                    <option value="क्रमिक वृद्धि">क्रमिक वृद्धि (Gradual Rise)</option>
+                    <option value="क्रमिक गिरावट">क्रमिक गिरावट (Gradual Fall)</option>
                     <option value="कोई विशेष परिवर्तन नहीं">कोई विशेष परिवर्तन नहीं</option>
                 </select>
                 <label>दर्ज की गई।</label>
+            </div>
+            <div class="checkbox-wrapper" style="margin-top: 10px;">
+                <input type="checkbox" id="min_obs_sec_enable" onchange="toggleObsSec('min')">
+                <label for="min_obs_sec_enable">Enable Secondary Trend</label>
+            </div>
+            <div id="min_obs_sec_container" style="display:none; margin-bottom: 10px; padding: 10px; border: 1px dashed #ccc; background: #fff; border-radius: 4px;">
+                <div class="tt-row">
+                    <label>Secondary Area (Multi-Select):</label>
+                    <div id="min_obs_sec_area_container" style="width:100%;" onchange="updateObsPreview('min')"></div>
+                </div>
+                <div class="tt-row">
+                    <label>Secondary Region:</label>
+                    <select id="min_obs_sec_region" class="tt-select-large" onchange="updateObsPreview('min')">
+                        <option value="शेष भागों के अधिकांश स्थानों">शेष भागों के अधिकांश स्थानों</option>
+                        <option value="शेष भागों के अनेक स्थानों" selected>शेष भागों के अनेक स्थानों</option>
+                        <option value="शेष भागों के कुछ स्थानों">शेष भागों के कुछ स्थानों</option>
+                        <option value="शेष भागों के एक या दो स्थानों">शेष भागों के एक या दो स्थानों</option>
+                        <option value="राज्य के अधिकांश स्थानों">राज्य के अधिकांश स्थानों</option>
+                        <option value="राज्य के अनेक स्थानों">राज्य के अनेक स्थानों</option>
+                        <option value="राज्य के कुछ स्थानों">राज्य के कुछ स्थानों</option>
+                        <option value="राज्य के एक या दो स्थानों">राज्य के एक या दो स्थानों</option>
+                    </select>
+                </div>
+                <div class="tt-row">
+                    <label>Change:</label>
+                    <div id="min_obs_sec_amount_wrapper" style="display:inline-flex; align-items:center; gap:5px;">
+                        <input type="text" id="min_obs_sec_amount" class="tt-input-medium" value="1-3" oninput="updateObsPreview('min')">
+                        <label>°C की</label>
+                    </div>
+                    <select id="min_obs_sec_change" class="tt-select-medium" onchange="updateObsPreview('min')">
+                        <option value="वृद्धि">वृद्धि (Rise)</option>
+                        <option value="गिरावट">गिरावट (Fall)</option>
+                        <option value="क्रमिक वृद्धि">क्रमिक वृद्धि (Gradual Rise)</option>
+                        <option value="क्रमिक गिरावट">क्रमिक गिरावट (Gradual Fall)</option>
+                        <option value="कोई विशेष परिवर्तन नहीं" selected>कोई विशेष परिवर्तन नहीं</option>
+                    </select>
+                    <label>दर्ज की गई।</label>
+                </div>
             </div>
             <label>Preview (Editable):</label>
             <textarea id="min_obs_preview" class="form-control" rows="3" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;"></textarea>
@@ -820,9 +908,10 @@ Or paste table..."
                     <label>की</label>
                   </div>
                   <select id="max_tt_change1" class="tt-select-large" onchange="handleTTChange('max_tt_change1', 'max_tt_range1_wrapper', 'max')">
-                    <option value="वृद्धि">वृद्धि</option>
-                    <option value="गिरावट">गिरावट</option>
-                    <option value="कमी">कमी</option>
+                    <option value="वृद्धि">वृद्धि (Rise)</option>
+                    <option value="गिरावट">गिरावट (Fall)</option>
+                    <option value="क्रमिक वृद्धि">क्रमिक वृद्धि (Gradual Rise)</option>
+                    <option value="क्रमिक गिरावट">क्रमिक गिरावट (Gradual Fall)</option>
                     <option value="कोई विशेष परिवर्तन नहीं">कोई विशेष परिवर्तन नहीं</option>
                   </select>
                   <label>होने की संभावना है</label>
@@ -848,9 +937,10 @@ Or paste table..."
                       <label>की</label>
                     </div>
                     <select id="max_tt_change2" class="tt-select-large" onchange="handleTTChange('max_tt_change2', 'max_tt_range2_wrapper', 'max')">
-                      <option value="कमी">कमी</option>
-                      <option value="गिरावट">गिरावट</option>
-                      <option value="वृद्धि">वृद्धि</option>
+                      <option value="वृद्धि">वृद्धि (Rise)</option>
+                      <option value="गिरावट">गिरावट (Fall)</option>
+                      <option value="क्रमिक वृद्धि">क्रमिक वृद्धि (Gradual Rise)</option>
+                      <option value="क्रमिक गिरावट">क्रमिक गिरावट (Gradual Fall)</option>
                       <option value="कोई विशेष परिवर्तन नहीं">कोई विशेष परिवर्तन नहीं</option>
                     </select>
                     <label>होने की संभावना है।</label>
@@ -897,9 +987,10 @@ Or paste table..."
                     <label>की</label>
                   </div>
                   <select id="min_tt_change1" class="tt-select-large" onchange="handleTTChange('min_tt_change1', 'min_tt_range1_wrapper', 'min')">
-                    <option value="वृद्धि">वृद्धि</option>
-                    <option value="गिरावट">गिरावट</option>
-                    <option value="कमी">कमी</option>
+                    <option value="वृद्धि">वृद्धि (Rise)</option>
+                    <option value="गिरावट">गिरावट (Fall)</option>
+                    <option value="क्रमिक वृद्धि">क्रमिक वृद्धि (Gradual Rise)</option>
+                    <option value="क्रमिक गिरावट">क्रमिक गिरावट (Gradual Fall)</option>
                     <option value="कोई विशेष परिवर्तन नहीं">कोई विशेष परिवर्तन नहीं</option>
                   </select>
                   <label>होने की संभावना है</label>
@@ -925,9 +1016,10 @@ Or paste table..."
                       <label>की</label>
                     </div>
                     <select id="min_tt_change2" class="tt-select-large" onchange="handleTTChange('min_tt_change2', 'min_tt_range2_wrapper', 'min')">
-                      <option value="कमी">कमी</option>
-                      <option value="गिरावट">गिरावट</option>
-                      <option value="वृद्धि">वृद्धि</option>
+                      <option value="वृद्धि">वृद्धि (Rise)</option>
+                      <option value="गिरावट">गिरावट (Fall)</option>
+                      <option value="क्रमिक वृद्धि">क्रमिक वृद्धि (Gradual Rise)</option>
+                      <option value="क्रमिक गिरावट">क्रमिक गिरावट (Gradual Fall)</option>
                       <option value="कोई विशेष परिवर्तन नहीं">कोई विशेष परिवर्तन नहीं</option>
                     </select>
                     <label>होने की संभावना है।</label>
@@ -1185,6 +1277,22 @@ Or paste table..."
         
         document.getElementById("summaryDateInput").value = `${yyyy}-${mm}-${dd}`;
         handleDateChange(); // Trigger initial load
+
+        document
+          .getElementById("max_obs_preview")
+          .addEventListener("input", () => updateObsPreview("max"));
+        document
+          .getElementById("min_obs_preview")
+          .addEventListener("input", () => updateObsPreview("min"));
+
+          const maxAreaContainer = document.getElementById("max_obs_area_container");
+          if (maxAreaContainer) maxAreaContainer.innerHTML = createDistrictSectorSelector("max_obs_area");
+          const minAreaContainer = document.getElementById("min_obs_area_container");
+          if (minAreaContainer) minAreaContainer.innerHTML = createDistrictSectorSelector("min_obs_area");
+          const maxSecAreaContainer = document.getElementById("max_obs_sec_area_container");
+          if (maxSecAreaContainer) maxSecAreaContainer.innerHTML = createDistrictSectorSelector("max_obs_sec_area");
+          const minSecAreaContainer = document.getElementById("min_obs_sec_area_container");
+          if (minSecAreaContainer) minSecAreaContainer.innerHTML = createDistrictSectorSelector("min_obs_sec_area");
       });
 
       function loadData() {
@@ -2527,22 +2635,87 @@ Or paste table..."
       }
 
       function updateObsPreview(type) {
-        const region = document.getElementById(`${type}_obs_region`).value;
-        const amount = document.getElementById(`${type}_obs_amount`).value;
-        const change = document.getElementById(`${type}_obs_change`).value;
+        const isManualEdit = window.event && window.event.target && window.event.target.id === `${type}_obs_preview`;
         const paramName = type === 'max' ? 'अधिकतम तापमान' : 'न्यूनतम तापमान';
         
-        const wrapper = document.getElementById(`${type}_obs_amount_wrapper`);
-        if (wrapper) {
-            if (change === "कोई विशेष परिवर्तन नहीं") {
-                wrapper.style.display = "none";
-            } else {
-                wrapper.style.display = "inline-flex";
+        const getTrendText = (prefix) => {
+            const region = document.getElementById(`${prefix}_region`).value;
+            const amount = document.getElementById(`${prefix}_amount`).value;
+            const change = document.getElementById(`${prefix}_change`).value;
+            
+            const wrapper = document.getElementById(`${prefix}_amount_wrapper`);
+            if (wrapper) {
+                if (change === "कोई विशेष परिवर्तन नहीं") {
+                    wrapper.style.display = "none";
+                } else {
+                    wrapper.style.display = "inline-flex";
+                }
             }
+            
+            let baseRegion = "";
+            let areaText = "";
+            let areaWrapper = document.getElementById(`sd-${prefix}_area`);
+            if (areaWrapper) {
+                const sectors = Array.from(areaWrapper.querySelectorAll(".sector-select-box input:checked")).map(cb => cb.value);
+                const dists = Array.from(areaWrapper.querySelectorAll(".dist-select-box input:checked")).map(cb => cb.value);
+                let parts = [];
+                if (sectors.length > 0) {
+                    let sText = joinNames(sectors);
+                    if (!sText.includes("भाग") && !sText.includes("क्षेत्र") && !sText.includes("शेष")) sText += " भाग";
+                    parts.push(sText);
+                }
+                if (dists.length > 0) parts.push(joinNames(dists));
+                areaText = parts.join(" और ");
+            }
+
+            if (areaText) {
+                let cleanCoverage = region.replace("राज्य के ", "").replace("शेष भागों के ", "");
+                if (region.includes("शेष भागों")) {
+                    baseRegion = `शेष भागों के ${areaText} के ${cleanCoverage}`;
+                } else {
+                    baseRegion = `राज्य के ${areaText} के ${cleanCoverage}`;
+                }
+            } else {
+                baseRegion = region;
+            }
+
+            if (change === "कोई विशेष परिवर्तन नहीं") {
+                return `${baseRegion} के ${paramName} में कोई विशेष परिवर्तन नहीं दर्ज की गई`;
+            } else {
+                return `${baseRegion} के ${paramName} में ${amount}°C की ${change} दर्ज की गई`;
+            }
+        };
+
+        if (!isManualEdit) {
+            let text = getTrendText(`${type}_obs`);
+
+            const secEnable = document.getElementById(`${type}_obs_sec_enable`);
+            if (secEnable && secEnable.checked) {
+                const secText = getTrendText(`${type}_obs_sec`);
+                if (secText) text += ` जबकि ${secText}`;
+            }
+            text += " ।";
+            document.getElementById(`${type}_obs_preview`).value = text;
         }
-        
-        let text = change === "कोई विशेष परिवर्तन नहीं" ? `${region} के ${paramName} में कोई विशेष परिवर्तन नहीं हुआ।` : `${region} के ${paramName} में ${amount}°C की ${change} दर्ज की गई।`;
-        document.getElementById(`${type}_obs_preview`).value = text;
+
+        const preview = document.getElementById(type + "_obs_preview").value.trim();
+        const trendText = "पिछले 24 घंटों के दौरान " + preview;
+
+        if (type === "max") {
+          const trendSelect = document.getElementById("maxTempTrend");
+          trendSelect.innerHTML = `<option>${trendText}</option>`;
+        }
+
+        if (type === "min") {
+          const trendSelect = document.getElementById("minTempTrend");
+          trendSelect.innerHTML = `<option>${trendText}</option>`;
+        }
+      }
+
+      function toggleObsSec(type) {
+          const isChecked = document.getElementById(`${type}_obs_sec_enable`).checked;
+          document.getElementById(`${type}_obs_sec_container`).style.display = isChecked ? 'block' : 'none';
+          updateObsPreview(type);
       }
 
       function generateSelectionList(lines) {

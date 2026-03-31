@@ -14,31 +14,15 @@ html {
 
 body {
   font-family: "Noto Sans Devanagari", sans-serif;
-  /* Animated Blue Sky Gradient */
-  background: linear-gradient(-45deg, #87ceeb, #00bfff, #1e90ff, #87cefa);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
-  background-attachment: fixed;
+  background-color: #f0f2f5; /* Consistent light gray background */
   min-height: 100vh;
-  color: #333;
+  color: #333; /* Default text color */
 }
 
 .container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 20px;
-}
-
-@keyframes gradientBG {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
 }
 
 header {
