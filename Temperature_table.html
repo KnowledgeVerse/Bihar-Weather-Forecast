@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Temperature Forecast Table</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+      .btn {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        color: white;
+        transition: opacity 0.2s;
+      }
+      .btn:hover {
+        opacity: 0.9;
+      }
+      .btn-primary {
+        background-color: #007bff;
+      }
+      .btn-danger {
+        background-color: #dc3545;
+      }
+      .btn-success {
+        background-color: #28a745;
+      }
+      .btn-secondary {
+        background-color: #6c757d;
+      }
+      /* Styles from bulk_import.html for the table */
+      body {
+        font-family: "Roboto", sans-serif;
+        padding: 20px;
+      }
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      .gen-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: "Arial", sans-serif;
+        font-size: 12px;
+        background: white;
+      }
+      .gen-table th,
+      .gen-table td {
+        border: 1px solid #000;
+        padding: 8px;
+        text-align: center;
+      }
+      .gen-table th {
+        background-color: #e0e0e0;
+      }
+      .row-max-temp td {
+        background-color: #fde2e4;
+      }
+      .row-min-temp td {
+        background-color: #e3f2fd;
+      }
+      .gen-table thead th:nth-child(-n + 3) {
+        background-color: #d9d9d9 !important;
+      }
+      tr.region-nw.row-max-temp td:nth-child(-n + 3),
+      tr.region-ne.row-max-temp td:nth-child(-n + 3),
+      tr.region-sc.row-max-temp td:nth-child(-n + 3),
+      tr.region-nw.row-min-temp td:nth-child(1),
+      tr.region-ne.row-min-temp td:nth-child(1),
+      tr.region-sc.row-min-temp td:nth-child(1) {
+        background-color: #f4efe6 !important;
+      }
+      tr.region-nc.row-max-temp td:nth-child(-n + 3),
+      tr.region-sw.row-max-temp td:nth-child(-n + 3),
+      tr.region-se.row-max-temp td:nth-child(-n + 3),
+      tr.region-nc.row-min-temp td:nth-child(1),
+      tr.region-sw.row-min-temp td:nth-child(1),
+      tr.region-se.row-min-temp td:nth-child(1) {
+        background-color: #dce6f5 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="menu-container"></div>
+    <div class="container">
+      <h1
+        style="
+          text-align: center;
+          margin-bottom: 20px;
+          color: #2c3e50;
+          border-bottom: 2px solid #eee;
+          padding-bottom: 10px;
+        "
+      >
+        जिलावार तापमान पूर्वानुमान सारणी / District Wise Temperature Forecast
+        Table
+      </h1>
+
+      <div
+        class="toolbar"
+        style="
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+          margin-bottom: 20px;
+          align-items: center;
+          justify-content: space-between;
+          background: #f8f9fa;
+          padding: 10px;
+          border-radius: 5px;
+          border: 1px solid #ddd;
+        "
+      >
+        <div>
+          <strong>Start Date: </strong>
+          <input
+            type="date"
+            id="forecastDateInput"
+            onchange="updateForecastGlobalDate()"
+            style="
+              padding: 4px;
+              border-radius: 4px;
+              border: 1px solid #ccc;
+              font-weight: bold;
+              color: #0056b3;
+            "
+          />
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap">
+          <button
+            class="btn btn-primary"
+            disabled=""
+            title="Generate on Import page"
+          >
+            Generate Table
+          </button>
+          <button
+            class="btn btn-primary"
+            style="background-color: #17a2b8"
+            disabled=""
+            title="Not applicable for this page"
+          >
+            Sync with Forecast
+          </button>
+          <button
+            class="btn btn-secondary"
+            disabled=""
+            title="Not applicable for this page"
+          >
+            Paste Data
+          </button>
+          <button
+            class="btn btn-danger"
+            disabled=""
+            title="Not applicable for this page"
+          >
+            Fill All Dry
+          </button>
+          <button class="btn btn-success" onclick="exportToWord()">
+            <i class="fas fa-file-word"></i> Format for Word
+          </button>
+          <button class="btn btn-success" onclick="exportToImage()">
+            <i class="fas fa-image"></i> Image (for Word/PDF)
+          </button>
+          <button class="btn btn-success" onclick="exportToPDF()">
+            <i class="fas fa-file-pdf"></i> PDF (A4 Landscape)
+          </button>
+          <button class="btn btn-success" onclick="exportToExcel()">
+            <i class="fas fa-file-excel"></i> Excel
+          </button>
+        </div>
+      </div>
+      <div id="tableContainer">
+        <p>Loading table...</p>
+      </div>
+    </div>
+    <script src="js/menu-loader.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const tableHtml = localStorage.getItem(
+          "bihar_temp_forecast_table_html",
+        );
+        const container = document.getElementById("tableContainer");
+
+        const dateInput = document.getElementById("forecastDateInput");
+        const storedDate = localStorage.getItem("bihar_forecast_date");
+        if (storedDate) {
+          const d = new Date(storedDate);
+          const yyyy = d.getFullYear();
+          const mm = String(d.getMonth() + 1).padStart(2, "0");
+          const dd = String(d.getDate()).padStart(2, "0");
+          if (dateInput) dateInput.value = `${yyyy}-${mm}-${dd}`;
+        }
+
+        if (tableHtml) {
+          container.innerHTML = tableHtml;
+        } else {
+          container.innerHTML =
+            '<p>No table data found. Please generate it from the <a href="bulk_import.html">import page</a>.</p>';
+        }
+      });
+
+      function updateForecastGlobalDate() {
+        const val = document.getElementById("forecastDateInput").value;
+        if (val) {
+          localStorage.setItem(
+            "bihar_forecast_date",
+            new Date(val).toISOString(),
+          );
+        }
+      }
+
+      function exportToWord() {
+        const html = document.getElementById("tableContainer").innerHTML;
+        const header =
+          "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+          "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+          "xmlns='http://www.w3.org/TR/REC-html40'>" +
+          "<head><meta charset='utf-8'><title>Export</title></head><body>";
+        const footer = "</body></html>";
+        const sourceHTML = header + html + footer;
+        const source =
+          "data:application/vnd.ms-word;charset=utf-8," +
+          encodeURIComponent(sourceHTML);
+        const fileDownload = document.createElement("a");
+        document.body.appendChild(fileDownload);
+        fileDownload.href = source;
+        fileDownload.download = "Temperature_Forecast_Table.doc";
+        fileDownload.click();
+        document.body.removeChild(fileDownload);
+      }
+
+      function exportToImage() {
+        const element = document.getElementById("tableContainer");
+        html2canvas(element, { backgroundColor: "#ffffff" }).then((canvas) => {
+          const link = document.createElement("a");
+          link.download = `Temperature_Forecast_Table_${new Date().toISOString().split("T")[0]}.png`;
+          link.href = canvas.toDataURL();
+          link.click();
+        });
+      }
+
+      function exportToPDF() {
+        const element = document.getElementById("tableContainer");
+        html2canvas(element, { backgroundColor: "#ffffff", scale: 2 }).then(
+          (canvas) => {
+            const imgData = canvas.toDataURL("image/png");
+            const { jsPDF } = window.jspdf;
+            // Landscape A4
+            const pdf = new jsPDF("l", "mm", "a4");
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+
+            const imgProps = pdf.getImageProperties(imgData);
+            const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+            let finalHeight = imgHeight;
+            let finalWidth = pdfWidth;
+
+            if (imgHeight > pdfHeight) {
+              finalHeight = pdfHeight - 20; // margin
+              finalWidth = (imgProps.width * finalHeight) / imgProps.height;
+            }
+
+            pdf.addImage(imgData, "PNG", 10, 10, finalWidth - 20, finalHeight); // margin
+            pdf.save(
+              `Temperature_Forecast_Table_${new Date().toISOString().split("T")[0]}.pdf`,
+            );
+          },
+        );
+      }
+
+      function exportToExcel() {
+        const table = document.querySelector("#tableContainer .gen-table");
+        if (!table) {
+          alert("Table not found to export.");
+          return;
+        }
+        const html = table.outerHTML;
+        const blob = new Blob(["\ufeff", html], {
+          type: "application/vnd.ms-excel",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `Temperature_Forecast_Table_${new Date().toISOString().split("T")[0]}.xls`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+    </script>
+  </body>
+</html>
+
+``` ### 3. `bulk_import.js` में बदलाव मैंने `processAndSave` फ़ंक्शन को अपडेट
+किया है ताकि यह टेबल जेनरेट करने के बाद नए `Temperature_table.html` पेज को एक नए
+टैब में खोले। ```diff --- a/e:\Lal Kamal
+Project\SWFC\Bihar-Weather-Forecast\js\bulk_import.js +++ b/e:\Lal Kamal
+Project\SWFC\Bihar-Weather-Forecast\js\bulk_import.js @@ -155,11 +155,9 @@
+localStorage.setItem("bihar_forecast_date", new Date().toISOString()); } - //
+Generate Table instead of redirecting
+generateDistrictForecastTable(weeklyMaxTemp, weeklyMinTemp); -
+document.getElementById("generatedTableSection").style.display = "block"; - -
+alert("Data saved and Forecast Table generated successfully!"); - //
+window.location.href = "Temperature_Forecast.html"; // Redirect removed +
+document.getElementById("generatedTableSection").style.display = "block"; //
+Show table on current page + alert("Data saved and table generated! Opening
+table in a new tab..."); + window.open("Temperature_table.html", "_blank"); }
+function identifyPhenomenon(text) {

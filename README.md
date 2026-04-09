@@ -36,11 +36,9 @@ A comprehensive web application for generating weather forecasts for Bihar distr
 3. Click "पूर्वानुमान तैयार करें" to generate forecast
 4. Export results as text or PDF
 
-## File Structure
-
 # File Tree: Bihar-Weather-Forecast
 
-**Generated:** 3/31/2026, 8:06:47 AM
+**Generated:** 3/31/2026, 1:05:57 PM
 **Root Path:** `e:\Lal Kamal Project\SWFC\Bihar-Weather-Forecast`
 
 ```
@@ -107,6 +105,7 @@ A comprehensive web application for generating weather forecasts for Bihar distr
 │   │   ├── ⚙️ Bihar.xml
 │   │   └── 📄 BiharBihar.dbf
 │   ├── 📄 Bihar District Name.csv
+│   ├── 📄 Word Template Generate_Weather_Bulletin.dotm
 │   ├── 📄 bihar_districts.geojson
 │   └── 📄 districts.csv
 ├── 📁 js
@@ -134,9 +133,11 @@ A comprehensive web application for generating weather forecasts for Bihar distr
 ├── 🌐 Generate_Weather_Bulletin.html
 ├── 📝 README.md
 ├── 🌐 Temperature_Forecast.html
+├── 🌐 Temperature_table.html
 ├── 🌐 Weather_Map_Effects.html
 ├── 🌐 Weather_Warning_Table.html
 ├── 🌐 Weather_summary.html
+├── 🌐 Word_Generate_Bulletin.html
 ├── 🌐 bulk_import.html
 ├── 🌐 bulletin.html
 ├── 🌐 bulletin_footer.html

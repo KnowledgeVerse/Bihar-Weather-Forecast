@@ -1893,7 +1893,7 @@ function renderTable(dataSource) {
       let noWarnBg = neutralBg;
       let noWarnStyle = "";
       if (hideWarningCol && applyTextBg) {
-        noWarnBg = "#28a745";
+        noWarnBg = "rgb(0, 153, 0)";
         noWarnStyle = "color:white; font-weight:bold;";
       }
 
@@ -1905,7 +1905,7 @@ function renderTable(dataSource) {
           ${!hideCols ? `<td style="text-align:center;">Nil</td>` : ""}
           <td style="background-color:${noWarnBg}; ${noWarnStyle}">No Warning</td>
           <td style="background-color:${noWarnBg}; ${noWarnStyle}">राज्य में कोई चेतावनी नहीं।</td>
-          ${!hideWarningCol ? `<td style="background-color:#28a745; color:white; font-weight:bold; text-align:center;">Green (No Warning)</td>` : ""}
+          ${!hideWarningCol ? `<td style="background-color:rgb(0, 153, 0); color:white; font-weight:bold; text-align:center;">Green (No Warning)</td>` : ""}
         </tr>`;
       tbody.innerHTML += row;
     } else {
