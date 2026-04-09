@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1565C0">
+<title>ऑफलाइन — बिहार मौसम पूर्वानुमान</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #0a1628;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    overflow: hidden;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(21,101,192,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(13,71,161,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 440px;
+    width: 100%;
+  }
+
+  .logo-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+    opacity: 0.7;
+  }
+
+  .logo-row img {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .weather-icon {
+    font-size: 80px;
+    margin-bottom: 12px;
+    display: block;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-10px); }
+  }
+
+  h1 {
+    font-size: 24px;
+    color: #90CAF9;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 17px;
+    color: #64B5F6;
+    margin-bottom: 18px;
+    font-weight: 400;
+    opacity: 0.85;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    opacity: 0.65;
+    margin-bottom: 4px;
+    line-height: 1.7;
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin: 22px 0;
+    text-align: left;
+    backdrop-filter: blur(10px);
+  }
+
+  .card h3 {
+    font-size: 13px;
+    color: #64B5F6;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .feature-list {
+    list-style: none;
+  }
+
+  .feature-list li {
+    font-size: 13px;
+    opacity: 0.82;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .feature-list li:last-child {
+    border-bottom: none;
+  }
+
+  .feature-list li .tick {
+    color: #81C784;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .btn-retry {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 32px;
+    background: linear-gradient(135deg, #1565C0, #1976D2);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(21, 101, 192, 0.45);
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .btn-retry:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(21, 101, 192, 0.6);
+  }
+
+  .btn-retry:active {
+    transform: translateY(0);
+  }
+
+  .status-msg {
+    margin-top: 14px;
+    font-size: 12px;
+    opacity: 0.5;
+    min-height: 18px;
+    transition: all 0.3s;
+  }
+
+  .status-msg.checking {
+    opacity: 0.8;
+    color: #FFD54F;
+  }
+
+  .status-msg.error {
+    opacity: 0.8;
+    color: #EF9A9A;
+  }
+
+  .links {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .links a {
+    font-size: 12px;
+    color: #64B5F6;
+    text-decoration: none;
+    background: rgba(100, 181, 246, 0.1);
+    border: 1px solid rgba(100, 181, 246, 0.2);
+    padding: 5px 12px;
+    border-radius: 6px;
+    transition: background 0.2s;
+  }
+
+  .links a:hover {
+    background: rgba(100, 181, 246, 0.2);
+  }
+
+  .footer-text {
+    margin-top: 28px;
+    font-size: 11px;
+    opacity: 0.35;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Logos -->
+  <div class="logo-row">
+    <img src="assets/logo.png"              alt="Gov Logo" onerror="this.style.display='none'">
+    <img src="assets/IMD_150_Year_Logo.png" alt="IMD Logo" onerror="this.style.display='none'">
+  </div>
+
+  <!-- Main Icon -->
+  <span class="weather-icon">🌩️</span>
+
+  <h1>आप ऑफलाइन हैं</h1>
+  <h2>You are currently offline</h2>
+
+  <p class="subtitle">इंटरनेट कनेक्शन उपलब्ध नहीं है।</p>
+  <p class="subtitle">No internet connection detected.</p>
+
+  <!-- Available offline features -->
+  <div class="card">
+    <h3>✅ Offline में भी उपलब्ध</h3>
+    <ul class="feature-list">
+      <li><span class="tick">✓</span> 7-दिन District-wise Forecast Entry</li>
+      <li><span class="tick">✓</span> Warning Table (Color Coding)</li>
+      <li><span class="tick">✓</span> Bulletin Generator (Generate_Weather_Bulletin)</li>
+      <li><span class="tick">✓</span> Offline Export / Import (JSON)</li>
+      <li><span class="tick">✓</span> पहले से Load किया गया Map</li>
+      <li><span class="tick">✓</span> Weather Icons & Audio</li>
+      <li><span class="tick">✓</span> Temperature & Humidity Tables</li>
+    </ul>
+  </div>
+
+  <!-- Retry button -->
+  <button class="btn-retry" onclick="tryReconnect()">
+    🔄 पुनः प्रयास करें / Retry
+  </button>
+
+  <p class="status-msg" id="status"></p>
+
+  <!-- Quick links to cached pages -->
+  <div class="links">
+    <a href="./index.html">🏠 Home</a>
+    <a href="./Generate_Weather_Bulletin.html">📄 Bulletin</a>
+    <a href="./Weather_Warning_Table.html">⚠️ Warning</a>
+    <a href="./Temperature_Forecast.html">🌡️ Temp</a>
+    <a href="./Detailed_Weather_Forecast.html">📊 Detailed</a>
+  </div>
+
+  <p class="footer-text">
+    बिहार मौसम पूर्वानुमान प्रणाली © Lal Kamal — IMD Patna
+  </p>
+
+</div>
+
+<script>
+  function tryReconnect() {
+    const st = document.getElementById('status');
+    st.textContent = '🔍 कनेक्शन जाँच रहे हैं... Checking...';
+    st.className = 'status-msg checking';
+
+    setTimeout(() => {
+      if (navigator.onLine) {
+        st.textContent = '✅ Connected! Redirecting...';
+        setTimeout(() => { location.href = './index.html'; }, 800);
+      } else {
+        st.textContent = '❌ अभी भी ऑफलाइन। Still offline.';
+        st.className = 'status-msg error';
+        setTimeout(() => {
+          st.textContent = '';
+          st.className = 'status-msg';
+        }, 3000);
+      }
+    }, 900);
+  }
+
+  /* Auto-redirect when internet returns */
+  window.addEventListener('online', () => {
+    const st = document.getElementById('status');
+    st.textContent = '✅ इंटरनेट आ गया! Redirecting...';
+    st.className = 'status-msg checking';
+    setTimeout(() => { location.href = './index.html'; }, 1200);
+  });
+</script>
+</body>
+</html>

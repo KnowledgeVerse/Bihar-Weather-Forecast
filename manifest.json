@@ -1,0 +1,69 @@
+{
+  "name": "बिहार मौसम पूर्वानुमान प्रणाली",
+  "short_name": "Bihar Mausam",
+  "description": "Bihar Weather Forecast System — District-wise 7-day forecast & bulletin generator. Developed by Lal Kamal. Data: IMD Patna.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a1628",
+  "theme_color": "#1565C0",
+  "lang": "hi-IN",
+  "dir": "ltr",
+  "categories": ["weather", "government", "utilities"],
+
+  "icons": [
+    {
+      "src": "assets/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/IMD_150_Year_Logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+
+  "shortcuts": [
+    {
+      "name": "7-Day Forecast",
+      "short_name": "Forecast",
+      "description": "District-wise 7-day weather forecast entry",
+      "url": "./index.html",
+      "icons": [{ "src": "assets/logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Bulletin Generator",
+      "short_name": "Bulletin",
+      "description": "Generate official IMD weather bulletin",
+      "url": "./Generate_Weather_Bulletin.html",
+      "icons": [{ "src": "assets/IMD_150_Year_Logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Warning Table",
+      "short_name": "Warning",
+      "description": "Weather Warning Table",
+      "url": "./Weather_Warning_Table.html",
+      "icons": [{ "src": "assets/logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Temperature Forecast",
+      "short_name": "Temp",
+      "description": "Temperature Forecast Page",
+      "url": "./Temperature_Forecast.html",
+      "icons": [{ "src": "assets/logo.png", "sizes": "192x192" }]
+    }
+  ],
+
+  "prefer_related_applications": false,
+  "related_applications": []
+}

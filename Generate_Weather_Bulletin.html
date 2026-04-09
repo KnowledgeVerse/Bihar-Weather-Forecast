@@ -93,19 +93,9 @@
 
       /* Header Layout */
       .header-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         border-bottom: 2px solid var(--border-color);
         padding-bottom: 15px;
         margin-bottom: 15px;
-      }
-
-      .logo-container {
-        flex: 0 0 120px; /* Fixed width for logos */
-        display: flex;
-        justify-content: center;
-        align-items: center;
       }
 
       .logo {
@@ -115,7 +105,6 @@
       }
 
       .header-text {
-        flex: 1;
         text-align: center;
         font-weight: bold;
         line-height: 1.5;
@@ -138,8 +127,6 @@
 
       /* Date Time Row */
       .date-time-row {
-        display: flex;
-        justify-content: space-between;
         font-weight: bold;
         font-size: 16px;
         margin-bottom: 10px;
@@ -770,8 +757,6 @@
       }
 
       .signature-section {
-        display: flex;
-        justify-content: space-between;
         margin-top: 30px;
         padding-top: 20px;
         page-break-inside: avoid;
@@ -1388,44 +1373,113 @@
 
     <div class="container" id="mainContainer">
       <!-- Header Section -->
-      <div class="header-top">
-        <div class="logo-container" style="justify-content: flex-start">
-          <img
-            src="assets/logo.png"
-            class="logo"
-            alt="Gov Logo"
-            onerror="this.src = 'assets/logo.png'"
-          />
-        </div>
-        <div class="header-text">
-          <div>भारत सरकार</div>
-          <div>पृथ्वी विज्ञान मंत्रालय</div>
-          <div>भारत मौसम विज्ञान विभाग</div>
-          <div>मौसम विज्ञान केंद्र, पटना</div>
-          <div>पटना – 800002</div>
-          <div style="font-weight: normal; font-size: 12px">
-            Website: https://mausam.imd.gov.in/patna | ई-मेल:
-            mc.patna@imd.gov.in
-          </div>
-        </div>
-        <div class="logo-container" style="justify-content: flex-end">
-          <img
-            src="assets/IMD_150_Year_Logo.png"
-            class="logo"
-            alt="IMD Logo"
-            onerror="this.src = 'assets/IMD_150_Year_Logo.png'"
-          />
-        </div>
-      </div>
+      <table
+        class="header-top"
+        style="
+          width: 100%;
+          border: none !important;
+          border-bottom: 2px solid #000 !important;
+          margin-bottom: 15px;
+        "
+      >
+        <tr>
+          <td
+            class="logo-container"
+            style="
+              width: 20%;
+              text-align: left;
+              vertical-align: middle;
+              border: none !important;
+              padding: 0;
+            "
+          >
+            <img
+              src="assets/logo.png"
+              class="logo"
+              style="max-height: 90px"
+              alt="Gov Logo"
+              onerror="this.src = 'assets/logo.png'"
+            />
+          </td>
+          <td
+            class="header-text"
+            style="
+              width: 60%;
+              text-align: center;
+              vertical-align: middle;
+              border: none !important;
+              padding: 0;
+            "
+          >
+            <div
+              style="
+                font-weight: bold;
+                font-size: 14px;
+                color: #000;
+                line-height: 1.4;
+              "
+            >
+              <div>भारत सरकार</div>
+              <div>पृथ्वी विज्ञान मंत्रालय</div>
+              <div>भारत मौसम विज्ञान विभाग</div>
+              <div>मौसम विज्ञान केंद्र, पटना</div>
+              <div>पटना – 800002</div>
+              <div style="font-weight: normal; font-size: 12px">
+                Website: https://mausam.imd.gov.in/patna | ई-मेल:
+                mc.patna@imd.gov.in
+              </div>
+            </div>
+          </td>
+          <td
+            class="logo-container"
+            style="
+              width: 20%;
+              text-align: right;
+              vertical-align: middle;
+              border: none !important;
+              padding: 0;
+            "
+          >
+            <img
+              src="assets/IMD_150_Year_Logo.png"
+              class="logo"
+              style="max-height: 90px"
+              alt="IMD Logo"
+              onerror="this.src = 'assets/IMD_150_Year_Logo.png'"
+            />
+          </td>
+        </tr>
+      </table>
 
       <!-- Season Title -->
       <div class="season-title">मानसूनोत्तर-ऋतु / POST-MONSOON SEASON</div>
 
       <!-- Date & Time -->
-      <div class="date-time-row">
-        <div id="dateDisplay">DATE: --.--.----</div>
-        <div id="timeDisplay">TIME OF ISSUE: --:-- HRS IST</div>
-      </div>
+      <table
+        class="date-time-row"
+        style="
+          width: 100%;
+          border: none !important;
+          margin-bottom: 10px;
+          font-weight: bold;
+          font-size: 14px;
+        "
+      >
+        <tr>
+          <td
+            style="text-align: left; border: none !important; padding: 0"
+            id="dateDisplay"
+          >
+            DATE: --.--.----
+          </td>
+          <td
+            style="text-align: right; border: none !important; padding: 0"
+            id="timeDisplay"
+          >
+            TIME OF ISSUE: --:-- HRS IST
+          </td>
+        </tr>
+      </table>
 
       <!-- Summary Content Area -->
       <div
@@ -2411,64 +2465,97 @@
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Exporting...';
 
         try {
-          // 1. आपके टेम्पलेट फ़ाइल का सही पाथ
-          const templatePath = "data/Generate_Weather_Bulletin.docx";
-
-          // फ़ाइल लोड करें
-          const response = await fetch(templatePath);
-          if (!response.ok) {
-            throw new Error("Template file not found at " + templatePath);
-          }
-          const content = await response.arrayBuffer();
-
-          // 2. PizZip का उपयोग करके फ़ाइल को खोलें
-          const zip = new PizZip(content);
-
-          // 3. Docxtemplater को इनिशियलाइज़ करें
-          const doc = new window.docxtemplater(zip, {
-            paragraphLoop: true,
-            linebreaks: true,
-          });
-
-          // 4. HTML से असली डेटा निकालें
-          const dateStr = getFormattedDate();
-          const summaryDiv = document.getElementById("summaryContent");
-          // Docxtemplater free version only supports plain text, not HTML tables
-          const summaryText = summaryDiv
-            ? summaryDiv.innerText
-            : "विगत 24 घंटों के दौरान राज्य का मौसम शुष्क बना रहा।";
-          const dutyOfficer = document.getElementById("dutySig")
-            ? document.getElementById("dutySig").innerText
-            : "";
-          const issuedBy = document.getElementById("issuedSig")
-            ? document.getElementById("issuedSig").innerText
-            : "";
-
-          // Word फ़ाइल के {Tags} के अनुसार डेटा सेट करें
-          const templateData = {
-            Date: dateStr,
-            Summary: summaryText,
-            DutyOfficer: dutyOfficer,
-            IssuedBy: issuedBy,
+          // 1. मैप्स को बेस64 इमेज में कैप्चर करें
+          const captureMap = async (id) => {
+            const el = document.getElementById(id);
+            if (el && el.offsetHeight > 0) {
+              try {
+                return await domtoimage.toPng(el, { bgcolor: "#ffffff" });
+              } catch (e) {
+                console.error("Map capture failed for " + id, e);
+              }
+            }
+            return null;
           };
 
-          // 5. डेटा को रिप्लेस करें
-          doc.render(templateData);
+          const minMapImg = await captureMap("minTempMapsContainer");
+          const maxMapImg = await captureMap("maxTempMapsContainer");
+          const fcMapImg = await captureMap("forecastMapsContainer");
+          const warnMapImg = await captureMap("warningMapsContainer");
 
-          // 6. नई फ़ाइल जनरेट करें
-          const out = doc.getZip().generate({
-            type: "blob",
-            mimeType:
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          // 2. मेन कंटेनर की क्लोन कॉपी बनाएं ताकि ओरिजिनल वेबपेज प्रभावित न हो
+          const container = document.getElementById("mainContainer");
+          const clone = container.cloneNode(true);
+
+          // 3. मैप कंटेनर डिव्स को एक्चुअल इमेजेस से रिप्लेस करें
+          const replaceMap = (id, imgData) => {
+            const el = clone.querySelector(`#${id}`);
+            if (el && imgData) {
+              const img = document.createElement("img");
+              img.src = imgData;
+              img.style.width = "100%";
+              img.style.border = "1px solid #ccc";
+              img.style.marginTop = "20px";
+              el.parentNode.replaceChild(img, el);
+            }
+          };
+
+          replaceMap("minTempMapsContainer", minMapImg);
+          replaceMap("maxTempMapsContainer", maxMapImg);
+          replaceMap("forecastMapsContainer", fcMapImg);
+          replaceMap("warningMapsContainer", warnMapImg);
+
+          // 4. पेज ब्रेक्स को MS Word कम्पेटिबल टैग्स में बदलें
+          const breaks = clone.querySelectorAll(
+            '[style*="page-break-after: always"]',
+          );
+          breaks.forEach((b) => {
+            const br = document.createElement("br");
+            br.setAttribute("clear", "all");
+            br.setAttribute(
+              "style",
+              "mso-special-character:line-break;page-break-before:always",
+            );
+            b.parentNode.insertBefore(br, b.nextSibling);
+            b.remove(); // पुराना डिव ब्रेक हटा दें
           });
 
-          // 7. डाउनलोड कराएं
-          saveAs(out, `बिहार_मौसम_विज्ञप्ति_${dateStr}.docx`);
+          // 5. हेडर के लोगो (Logos) को Base64 में बदलें और साइज़ फिक्स करें ताकि Word में सही दिखें
+          const logos = clone.querySelectorAll(".header-top img");
+          for (let img of logos) {
+            // ओरिजिनल इमेज का अनुपात (aspect ratio) निकालें
+            let ratio = (img.naturalWidth || 100) / (img.naturalHeight || 100);
+            let targetHeight = 70; // Word के लिए फिक्स ऊँचाई (70px)
+            let targetWidth = Math.round(targetHeight * ratio);
+
+            if (img.src && !img.src.startsWith("data:")) {
+              try {
+                const res = await fetch(img.src);
+                const blob = await res.blob();
+                const base64 = await new Promise((resolve) => {
+                  const reader = new FileReader();
+                  reader.onloadend = () => resolve(reader.result);
+                  reader.readAsDataURL(blob);
+                });
+                img.src = base64;
+              } catch (e) {
+                console.error("Logo fetch error:", e);
+              }
+            }
+            // MS Word के लिए पक्का साइज़ (Height/Width) सेट करें
+            img.setAttribute("height", targetHeight);
+            img.setAttribute("width", targetWidth);
+            img.style.height = targetHeight + "px";
+            img.style.width = targetWidth + "px";
+          }
+
+          const dateStr = getFormattedDate();
+          const htmlContent = `<div class="main-page">${clone.innerHTML}</div>`;
+
+          exportToWord(htmlContent, `बिहार_मौसम_विज्ञप्ति_${dateStr}.doc`);
         } catch (error) {
           console.error("Error generating word document:", error);
-          alert(
-            "Word फ़ाइल बनाने में त्रुटि हुई! कृपया सुनिश्चित करें कि Live Server चालू है और 'data/Generate_Weather_Bulletin.docx' फ़ाइल मौजूद है।",
-          );
+          alert("Word फ़ाइल बनाने में त्रुटि हुई!");
         } finally {
           if (btn) btn.innerHTML = originalText;
         }
@@ -2483,8 +2570,10 @@
 
       // Helper Export Functions (Reused)
       function exportToWord(htmlContent, filename) {
-        const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' 
+        const header = `<html xmlns:v="urn:schemas-microsoft-com:vml"
+                 xmlns:o="urn:schemas-microsoft-com:office:office"
                  xmlns:w='urn:schemas-microsoft-com:office:word' 
+                 xmlns:m="http://schemas-microsoft.com/office/2004/12/omml"
                  xmlns='http://www.w3.org/TR/REC-html40'>
            <head>
                <meta charset='utf-8'>
@@ -2499,17 +2588,49 @@
                    }
                    div.WordSection1 { page: WordSection1; }
                    body {
-                       font-family: Arial, sans-serif;
+                       font-family: Arial, "Noto Sans Devanagari", sans-serif;
                        font-size: 11pt;
                    }
                    .main-page { width: 100%; box-sizing: border-box; margin: 0 auto; }
                    table {
                        width: 100%;
                        border-collapse: collapse;
+                       border: 1px solid #000;
                    }
                    td, th {
+                       border: 1px solid #000;
                        padding: 4px;
+                       vertical-align: middle;
                    }
+                   th {
+                       background-color: #0056b3;
+                       color: white;
+                       font-weight: bold;
+                   }
+                   /* Colors for Word */
+                   .bg-dry { background-color: #ffffff; color: #000; }
+                   .bg-isol { background-color: #33cc33; color: #000; }
+                   .bg-sct { background-color: #009900; color: #fff; }
+                   .bg-fws { background-color: #33ccff; color: #000; }
+                   .bg-ws { background-color: #0066ff; color: #fff; }
+                   .warning-green { background-color: #28a745; color: white; }
+                   .warning-yellow { background-color: #ffc107; color: black; }
+                   .warning-orange { background-color: #fd7e14; color: white; }
+                   .warning-red { background-color: #dc3545; color: white; }
+                   .col-impact { background-color: #ffff00; }
+                   .col-suggestion { background-color: #90ee90; }
+                   .rain-dry { background-color: #fff; }
+                   .rain-isol { background-color: #b3d9ff; }
+                   .rain-sct { background-color: #80bfff; }
+                   .rain-fws { background-color: #4da6ff; }
+                   .rain-ws { background-color: #0080ff; color: white; }
+                   .warn-green { background-color: #90ee90; }
+                   .warn-yellow { background-color: #ffff00; }
+                   .warn-orange { background-color: #ffa500; }
+                   .warn-red { background-color: #ff0000; color: white; }
+                   .row-max-temp td { background-color: #fde2e4; }
+                   .row-min-temp td { background-color: #e3f2fd; }
+                   img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
                    .page-break {
                        page-break-after: always;
                    }
@@ -2742,16 +2863,22 @@
           </tbody>
         </table>
 
-        <div class="signature-section">
-          <div class="sig-box">
-            <div class="sig-label">Duty Officer</div>
-            <div class="sig-line" id="dutySig" contenteditable="true">${savedDutySel}</div>
-          </div>
-          <div class="sig-box">
-            <div class="sig-label">Forecast Issued By</div>
-            <div class="sig-line" id="issuedSig" contenteditable="true">${savedIssuedSel}</div>
-          </div>
-        </div>
+        <table class="signature-section" style="width: 100%; border: none !important; margin-top: 30px; page-break-inside: avoid;">
+          <tr>
+            <td style="width: 50%; text-align: left; border: none !important; padding: 0;">
+              <div style="text-align: center; display: inline-block; min-width: 200px;">
+                <div style="font-weight: bold;">Duty Officer</div>
+                <div style="border-bottom: 1px solid #000; margin-bottom: 5px; height: 30px;" id="dutySig" contenteditable="true">${savedDutySel}</div>
+              </div>
+            </td>
+            <td style="width: 50%; text-align: right; border: none !important; padding: 0;">
+              <div style="text-align: center; display: inline-block; min-width: 200px;">
+                <div style="font-weight: bold;">Forecast Issued By</div>
+                <div style="border-bottom: 1px solid #000; margin-bottom: 5px; height: 30px;" id="issuedSig" contenteditable="true">${savedIssuedSel}</div>
+              </div>
+            </td>
+          </tr>
+        </table>
         
         <div style="width: 100%; text-align: center; font-family: 'Times New Roman', serif; font-size: 12px; color: #333; border-top: 1px solid #000; margin-top: 30px; padding-top: 10px;">
             Generated by SWFC Web Application | Developed by Lal Kamal

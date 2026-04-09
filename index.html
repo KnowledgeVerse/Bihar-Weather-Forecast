@@ -3,6 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <title>बिहार मौसम पूर्वानुमान | Bihar Weather Forecast</title>
+    <!-- ===== PWA SUPPORT — START ===== -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#1565C0" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Bihar Mausam" />
+    <link rel="apple-touch-icon" href="assets/logo.png" />
+    <!-- ===== PWA SUPPORT — END ===== -->
     <link rel="stylesheet" href="css/style.css?v=2.2" />
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;700&display=swap"
@@ -181,8 +193,34 @@
     <!-- Sign In / User Profile (Top Right) -->
     <div
       class="user-profile-container"
-      style="position: fixed; top: 15px; right: 15px; z-index: 9999"
+      style="
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      "
     >
+      <!-- Permanent Install Button -->
+      <button
+        id="manualInstallBtn"
+        style="
+          display: block;
+          padding: 8px 15px;
+          border-radius: 20px;
+          border: none;
+          background: linear-gradient(135deg, #f39c12, #d35400);
+          color: white;
+          font-weight: bold;
+          cursor: pointer;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        "
+        onclick="if (window.PWA) window.PWA.install();"
+      >
+        <i class="fas fa-download"></i> Install App
+      </button>
       <img
         src="logo/sign_in_logo.png"
         id="userLogoBtn"
@@ -1387,7 +1425,15 @@
           >&times;</span
         >
         <h3>Contact Us</h3>
-        <p>Email: lalkamal999@gmail.com<br />Phone: +91-9852917265</p>
+        <p>
+          Email:
+          <a
+            href="/cdn-cgi/l/email-protection"
+            class="__cf_email__"
+            data-cfemail="fb979a97909a969a97c2c2c2bb9c969a9297d5989496"
+            >[email&#160;protected]</a
+          ><br />Phone: +91-9852917265
+        </p>
       </div>
     </div>
 
@@ -1426,6 +1472,10 @@
     </div>
 
     <!-- Scripts -->
+    <script
+      data-cfasync="false"
+      src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
+    ></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/shpjs@latest/dist/shp.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
@@ -1464,13 +1514,13 @@
         toggleSwitch.addEventListener("change", function () {
           if (this.checked) {
             // Checked = Green = Show Header
-            header.classList.remove("hidden-header");
+            header.style.display = "flex";
           } else {
-            // Unchecked = White/Grey = Hide Header
-            header.classList.add("hidden-header");
+            header.style.display = "none";
           }
         });
       }
     </script>
+    <script src="pwa-register.js"></script>
   </body>
 </html>
