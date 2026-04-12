@@ -17,7 +17,7 @@
  * ================================================================
  */
 
-const VERSION = "1.0.1";
+const VERSION = "1.0.2";
 const CACHE_CORE = `bm-core-${VERSION}`; // HTML, JS, CSS, data
 const CACHE_ASSETS = `bm-assets-${VERSION}`; // Images, audio, icons
 const CACHE_TILES = `bm-tiles-${VERSION}`; // Map tiles (7-day expiry)
@@ -109,6 +109,7 @@ const IMAGE_FILES = [
   "./assets/weather-icons/snow.png",
   "./assets/weather-icons/dry.png",
   "./assets/weather-icons/hotday.png",
+  "./assets/weather-icons/hotdryday.png",
   "./assets/weather-icons/hotandhumid.png",
   "./assets/weather-icons/veryheavyrain.png",
   "./assets/weather-icons/extremelyveryheavyrain.png",
@@ -242,6 +243,15 @@ self.addEventListener("fetch", (event) => {
   if (url.protocol === "chrome-extension:") return;
   if (url.protocol === "moz-extension:") return;
 
+  /* ── Bypass APIs and WebSockets (Prevents Live Server & API issues) ── */
+  if (
+    url.protocol.startsWith("ws") ||
+    url.hostname.includes("api.open-meteo.com") ||
+    url.pathname.includes("socket.io")
+  ) {
+    return; // Let browser handle it normally without caching
+  }
+
   /* ── Map Tiles → Cache-First + 7-day expiry ── */
   if (
     url.hostname.includes("tile.openstreetmap.org") ||
@@ -282,7 +292,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   /* ── GeoJSON / CSV / Data → Cache-First ── */
-  if (url.pathname.match(/\.(geojson|json|csv|dotm)$/i)) {
+  if (url.pathname.match(/\.(geojson|json|csv|dotm|shp|dbf|prj)$/i)) {
     event.respondWith(cacheFirst(req, CACHE_CORE));
     return;
   }
@@ -312,7 +322,7 @@ async function cacheFirst(request, cacheName) {
 
   try {
     const response = await fetch(request);
-    if (response.ok) {
+    if (response.status === 200) {
       const cache = await caches.open(cacheName);
       cache.put(request, response.clone());
     }
@@ -326,7 +336,7 @@ async function cacheFirst(request, cacheName) {
 async function networkFirst(request, cacheName) {
   try {
     const response = await fetch(request);
-    if (response.ok) {
+    if (response.status === 200) {
       const cache = await caches.open(cacheName);
       cache.put(request, response.clone());
     }

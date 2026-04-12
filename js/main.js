@@ -9,6 +9,8 @@ const intensityLines = {
     "लू (उष्ण लहर) की संभावना है।",
     "भीषण लू (उष्ण लहर) की संभावना है।",
   ],
+  hotday: ["गर्म दिन रहने की संभावना है।", "भीषण गर्म दिन रहने की संभावना है।"],
+  hotdryday: ["गर्म और शुष्क दिन रहने की संभावना है।"],
   hotandhumid: ["उमस भरा दिन रहने की संभावना है।"],
   warmnight: ["गर्म रात्रि की संभावना है।", "भीषण गर्म रात्रि की संभावना है।"],
   coldwave: ["शीत लहर की संभावना है।", "भीषण शीत लहर की संभावना है।"],
@@ -65,6 +67,8 @@ const intensityLinesEn = {
   veryheavyrain: ["Very heavy rainfall is very likely."],
   extremelyheavyrain: ["Extremely heavy rainfall is expected."],
   heatwave: ["Heat wave likely.", "Severe heat wave likely."],
+  hotday: ["Hot day likely.", "Severe hot day likely."],
+  hotdryday: ["Hot and dry day likely."],
   hotandhumid: ["Hot and humid day likely."],
   warmnight: ["Warm night likely.", "Severe warm night likely."],
   coldwave: ["Cold wave likely.", "Severe cold wave likely."],
@@ -119,6 +123,8 @@ const phenColors = {
   veryheavyrain: "#003366", // Even Darker Blue
   extremelyheavyrain: "#4a148c", // Purple for extreme
   heatwave: "#fd7e14", // Orange
+  hotday: "#e65100", // Deep Orange
+  hotdryday: "#ffb300", // Yellow-Orange
   hotandhumid: "#ffab40", // Amber
   warmnight: "#e83e8c", // Pink
   coldwave: "#00bcd4", // Cyan
@@ -395,6 +401,20 @@ const phenDefs = [
     english: "Warm Night",
     icon: "fa-temperature-high",
     image: "assets/weather-icons/warmnight.png",
+  },
+  {
+    id: "hotday",
+    hindi: "गर्म दिन",
+    english: "Hot Day",
+    icon: "fa-sun",
+    image: "assets/weather-icons/hotday.png",
+  },
+  {
+    id: "hotdryday",
+    hindi: "गर्म और शुष्क दिन",
+    english: "Hot and Dry Day",
+    icon: "fa-sun",
+    image: "assets/weather-icons/hotdryday.png",
   },
   {
     id: "hotandhumid",

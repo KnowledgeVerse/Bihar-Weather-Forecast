@@ -3,6 +3,8 @@ const phenColors = {
   dry: "#ffffff",
   heavyrain: "#007bff",
   heatwave: "#fd7e14",
+  hotday: "#e65100",
+  hotdryday: "#ffb300",
   warmnight: "#e83e8c",
   coldwave: "#00bcd4",
   coldday: "#20c997",
@@ -24,6 +26,18 @@ const phenDefs = [
     hindi: "शुष्क मौसम",
     icon: "fa-sun",
     image: "assets/weather-icons/dry.png",
+  },
+  {
+    id: "hotday",
+    hindi: "गर्म दिन",
+    icon: "fa-sun",
+    image: "assets/weather-icons/hotday.png",
+  },
+  {
+    id: "hotdryday",
+    hindi: "गर्म और शुष्क दिन",
+    icon: "fa-sun",
+    image: "assets/weather-icons/hotdryday.png",
   },
   {
     id: "heavyrain",
